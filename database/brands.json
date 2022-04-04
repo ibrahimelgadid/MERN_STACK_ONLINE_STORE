@@ -1,0 +1,11 @@
+{"_id":{"$oid":"61ec2d1c136feb2e2c96ee91"},"name":"Dell","description":"Dell is a brand for laptops","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61ec2d2c136feb2e2c96ee95"},"name":"Iphone","description":"Dell is a Iphone  for ios smart phones","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61ec2d35136feb2e2c96ee99"},"name":"Toshiba","description":"Dell is a Toshiba for laptops","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61eda355ec080765bf5951e1"},"name":"Zara","description":"Zara is brand for clothes","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61edaa240987694519e81cf1"},"name":"Tie House","description":"ggggggggggg","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61f2664de7e7fb3ccb01ac92"},"name":"Tornado","description":"jasdhweukfhwio","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61f26659e7e7fb3ccb01ac97"},"name":"HP","description":"oweuwr3io","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61f26667e7e7fb3ccb01ac9c"},"name":"Addidas","description":"judfuru3ior","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61f26681e7e7fb3ccb01aca1"},"name":"Lenovo","description":"ncsjdhuih","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61f26693e7e7fb3ccb01aca6"},"name":"Samsung","description":"jiookkkkkkkkkkkkkkkk","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61f266bfe7e7fb3ccb01acab"},"name":"Oppo","description":"jjjjjjjjjjjjjjjjjjjjjjjj","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}

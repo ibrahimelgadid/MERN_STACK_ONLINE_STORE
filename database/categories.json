@@ -1,0 +1,9 @@
+{"_id":{"$oid":"61ec16584cb31b132c3e7035"},"name":"Jakets","description":"this is samsung category","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61ec167f4cb31b132c3e7039"},"name":"Wood tools","description":"this is tables","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61ec16a84cb31b132c3e703d"},"name":"Phones","description":"this is phones category","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61ec16b44cb31b132c3e7041"},"name":"T-shirts","description":"this is t-shirts category","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61ec16be4cb31b132c3e7045"},"name":"Laptops","description":"this is  Laptops category","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61ec16c64cb31b132c3e7049"},"name":"Mixers","description":"this is Mixers  category","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61ec43aa0208796cf26e60be"},"name":"Dresses","description":"this is Dresses  category","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61f265bee7e7fb3ccb01ac8b"},"name":"TVs","description":"ksjdhuiwdhiwu","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
+{"_id":{"$oid":"61f269f0e7e7fb3ccb01acfd"},"name":"Camera","description":"hckgdu","publisher":{"$oid":"61dc570907d5886f05034881"},"__v":0}
