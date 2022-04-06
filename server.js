@@ -89,7 +89,9 @@ const server = app.listen(PORT, ()=>console.log('Server is running......'));
 //              Display socket                 |
 //---------------------------------------------|
 global.io = require('socket.io')(server, {
-
+  cors: {
+    origin: "*"
+  }
 })
 
 
