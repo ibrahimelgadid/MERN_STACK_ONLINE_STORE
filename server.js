@@ -4,10 +4,10 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const db = require('./config/databse').mongoURI;
 const logger = require('morgan');
 const passport = require('passport');
 const cors = require('cors')
+const dotenv = require('dotenv');dotenv.config();
 
 
 
@@ -27,10 +27,11 @@ const stripeRouter = require('./routes/api/stripe.js')
 
 
 
+
 //---------------------------------------------|
 //             connect to database             |
 //---------------------------------------------|
-mongoose.connect(db)
+mongoose.connect(process.env.mongoURI)
   .then(()=>console.log('Database is running....'))
   .catch((err)=>console.log(err));
 
@@ -47,7 +48,7 @@ require('./config/passport')(passport)
 //---------------------------------------------|
 //             Display middlewares             |
 //---------------------------------------------|
-app.use(cors({origin:'http://localhost:3000'}))
+app.use(cors())
 app.use(logger('dev'));
 app.use(require('express').urlencoded({ extended: false }));
 app.use(require('express').json())
@@ -68,7 +69,6 @@ app.use('/posts', postsRouter);
 app.use('/notify', notificationsRouter);
 app.use('/stripe', stripeRouter);
 
-
 if (process.env.NODE_ENV === "production") {
   
   app.use(express.static('frontEnd/build'))
@@ -80,8 +80,8 @@ if (process.env.NODE_ENV === "production") {
 //---------------------------------------------|
 //              Display server                 |
 //---------------------------------------------|
-const port = process.env.PORT || 5000;
-const server = app.listen(port, ()=>console.log('Server is running......'));
+const PORT = process.env.PORT || 5000;
+const server = app.listen(PORT, ()=>console.log('Server is running......'));
 
 
 

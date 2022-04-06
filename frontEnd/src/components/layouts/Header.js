@@ -13,6 +13,7 @@ import { bindActionCreators } from "redux";
 import { logOut } from "../../ReduxCycle/actions/authActions";
 import { getCartElements } from "../../ReduxCycle/actions/cartActions";
 import isEmpty from "../../utilis/isEmpty";
+import {imgServer} from "../../utilis/imageServer";
 
 
 const Header = () => {
@@ -56,7 +57,7 @@ const Header = () => {
                     aria-label="Profile"
                   >
                   <img alt="" style={{borderRadius:'50px', width:'50px', height:'50px'}} src={user.avatar==='noimage.png'?`../../../images/${user.avatar}`:
-                  `http://localhost:5000/userAvatar/${user.avatar}`}/>
+                  `${imgServer}/userAvatar/${user.avatar}`}/>
                     
                   </button>
                   <ul className="dropdown-menu">

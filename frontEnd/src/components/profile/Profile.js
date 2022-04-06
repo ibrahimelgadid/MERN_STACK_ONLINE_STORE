@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { changeImg } from '../../ReduxCycle/actions/authActions';
 import isEmpty from '../../utilis/isEmpty';
 import { toast } from 'react-toastify';
+import {imgServer} from "../../utilis/imageServer";
 
 
 
@@ -67,7 +68,7 @@ function Profile() {
                 <img ref={imgRef} style={{width:'150px', height:'150px'}} alt=''
                   className='d-block img-fluid rounded-circle img-thumbnail mx-auto' 
                   src={user.avatar==='noimage.png'?`../../../images/${user.avatar}`:
-                  `http://localhost:5000/userAvatar/${user.avatar}`} 
+                  `${imgServer}/userAvatar/${user.avatar}`} 
                 />
                 
                 <form onSubmit={handleChangeImg}>

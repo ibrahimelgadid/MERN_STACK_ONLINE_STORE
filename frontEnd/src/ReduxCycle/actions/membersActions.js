@@ -4,7 +4,7 @@ import { DELETE_USER, GET_ERRORS, GET_USER, GET_USERS } from './actionsTypes';
 
 
 export const getUsers = ()=>(dispatch)=>{
-  axios.get('http://localhost:5000/users/all')
+  axios.get('users/all')
     .then(res=>{
         dispatch({
           type:GET_USERS,
@@ -21,7 +21,7 @@ export const getUsers = ()=>(dispatch)=>{
 }
 
 export const getUser = (user_id)=>(dispatch)=>{
-  axios.get('http://localhost:5000/users/'+user_id)
+  axios.get('users/'+user_id)
     .then(res=>{
         dispatch({
           type:GET_USER,
@@ -39,7 +39,7 @@ export const getUser = (user_id)=>(dispatch)=>{
 
 
 export const editUserRole = (roleData,user_id, navigate)=>(dispatch)=>{
-  axios.put('http://localhost:5000/users/role/'+user_id, roleData)
+  axios.put('users/role/'+user_id, roleData)
     .then(res=>{
         toast.success('User role has been changed', {theme:'colored'})
         navigate(-1)
@@ -55,7 +55,7 @@ export const editUserRole = (roleData,user_id, navigate)=>(dispatch)=>{
 
 
 export const deleteUser = (user_id)=>(dispatch)=>{
-  axios.delete('http://localhost:5000/users/'+user_id)
+  axios.delete('users/'+user_id)
     .then(res=>{
         toast.success('User has been deleted', {theme:'colored'})
         dispatch({

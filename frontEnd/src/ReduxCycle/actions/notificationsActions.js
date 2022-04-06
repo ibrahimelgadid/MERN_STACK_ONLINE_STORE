@@ -4,7 +4,7 @@ import { GET_ERRORS, ADD_NOTIFY, GET_NOTIFIES, DELETE_NOTIFIY, DELETE_NOTIFIIES 
 
 
 export const addNewNotification = (notifyData,)=>(dispatch)=>{
-  axios.post('http://localhost:5000/notify', notifyData)
+  axios.post('notify', notifyData)
     .then(res=>{
       dispatch({
         type:ADD_NOTIFY,
@@ -23,7 +23,7 @@ export const addNewNotification = (notifyData,)=>(dispatch)=>{
 
 
 export const getNotifications = ()=>(dispatch)=>{
-  axios.get('http://localhost:5000/notify')
+  axios.get('notify')
     .then(res=>{
         dispatch({
           type:GET_NOTIFIES,
@@ -41,7 +41,7 @@ export const getNotifications = ()=>(dispatch)=>{
 
 
 export const deleteNotification = (notify_id)=>(dispatch)=>{
-  axios.post('http://localhost:5000/notify/delete',{notify_id})
+  axios.post('notify/delete',{notify_id})
     .then(res=>{
         dispatch({
           type:DELETE_NOTIFIY,
@@ -60,7 +60,7 @@ export const deleteNotification = (notify_id)=>(dispatch)=>{
 
 
 export const clearNotification = ()=>(dispatch)=>{
-  axios.post('http://localhost:5000/notify/clear')
+  axios.post('notify/clear')
     .then(res=>{
         dispatch({
           type:DELETE_NOTIFIIES

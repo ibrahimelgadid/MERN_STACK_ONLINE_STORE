@@ -6,7 +6,7 @@ import { CLEAR_ERRORS, DELETE_PRODUCT, GET_ERRORS, GET_PRODUCT, GET_PRODUCTS } f
 
 export const addNewProduct = (productData, navigate)=>(dispatch)=>{
  dispatch( clearErrors());
-  axios.post('http://localhost:5000/products', productData)
+  axios.post('products', productData)
     .then(res=>{
         toast.success('New product has been added', {theme:'colored'})
         navigate('/admin-products')
@@ -23,7 +23,7 @@ export const addNewProduct = (productData, navigate)=>(dispatch)=>{
 
 export const editProduct = (productData, id, navigate)=>(dispatch)=>{
   dispatch( clearErrors());
-  axios.put('http://localhost:5000/products/'+id, productData)
+  axios.put('products/'+id, productData)
     .then(res=>{
         toast.success('Product has been edited', {theme:'colored'})
         navigate('/admin-products')
@@ -39,7 +39,7 @@ export const editProduct = (productData, id, navigate)=>(dispatch)=>{
 
 
 export const getProducts = (page)=>(dispatch)=>{
-  axios.get(`http://localhost:5000/products?page=${page}`)
+  axios.get(`products?page=${page}`)
     .then(res=>{
         dispatch({
           type:GET_PRODUCTS,
@@ -58,7 +58,7 @@ export const getProducts = (page)=>(dispatch)=>{
 
 
 export const getProductsForAdmins = ()=>(dispatch)=>{
-  axios.get(`http://localhost:5000/products/admins`)
+  axios.get(`products/admins`)
     .then(res=>{
         dispatch({
           type:GET_PRODUCTS,
@@ -77,7 +77,7 @@ export const getProductsForAdmins = ()=>(dispatch)=>{
 
 
 export const sortProducts = (sorted,num)=>(dispatch)=>{
-  axios.get(`http://localhost:5000/products/sort/${sorted}/${num}?page=0`)
+  axios.get(`products/sort/${sorted}/${num}?page=0`)
     .then(res=>{
         dispatch({
           type:GET_PRODUCTS,
@@ -95,7 +95,7 @@ export const sortProducts = (sorted,num)=>(dispatch)=>{
 
 
 export const getProductsByCategory = (category)=>(dispatch)=>{
-  axios.get('http://localhost:5000/products/category/'+category+"?page=0")
+  axios.get('products/category/'+category+"?page=0")
     .then(res=>{
         dispatch({
           type:GET_PRODUCTS,
@@ -113,7 +113,7 @@ export const getProductsByCategory = (category)=>(dispatch)=>{
 
 
 export const getProductsByFilter = (filterData)=>(dispatch)=>{
-  axios.post('http://localhost:5000/products/filter', filterData)
+  axios.post('products/filter', filterData)
     .then(res=>{
         dispatch({
           type:GET_PRODUCTS,
@@ -131,7 +131,7 @@ export const getProductsByFilter = (filterData)=>(dispatch)=>{
 
 
 export const getProductsBySearch = (searchData)=>(dispatch)=>{
-  axios.post('http://localhost:5000/products/search?page=0', searchData)
+  axios.post('products/search?page=0', searchData)
     .then(res=>{
         dispatch({
           type:GET_PRODUCTS,
@@ -149,7 +149,7 @@ export const getProductsBySearch = (searchData)=>(dispatch)=>{
 
 
 export const getProductsByBrand = (brand)=>(dispatch)=>{
-  axios.get('http://localhost:5000/products/brand/'+brand+'?page=0')
+  axios.get('products/brand/'+brand+'?page=0')
     .then(res=>{
         dispatch({
           type:GET_PRODUCTS,
@@ -166,7 +166,7 @@ export const getProductsByBrand = (brand)=>(dispatch)=>{
 }
 
 export const getProduct = (product_id)=>(dispatch)=>{
-  axios.get('http://localhost:5000/products/'+product_id)
+  axios.get('products/'+product_id)
     .then(res=>{
         dispatch({
           type:GET_PRODUCT,
@@ -186,7 +186,7 @@ export const getProduct = (product_id)=>(dispatch)=>{
 
 
 export const deleteProduct = (product_id)=>(dispatch)=>{
-  axios.delete('http://localhost:5000/products/'+product_id)
+  axios.delete('products/'+product_id)
     .then(res=>{
         toast.success('Product has been deleted', {theme:'colored'})
         dispatch({
@@ -207,7 +207,7 @@ export const deleteProduct = (product_id)=>(dispatch)=>{
 
 
 export const addGallaryImages = (data ,pro_id)=>(dispatch)=>{
-  axios.post(`http://localhost:5000/products/gallary/${pro_id}`, data)
+  axios.post(`products/gallary/${pro_id}`, data)
     .then(res=>{
         dispatch({
           type:GET_PRODUCT,
@@ -225,7 +225,7 @@ export const addGallaryImages = (data ,pro_id)=>(dispatch)=>{
 
 
 export const deleteGallaryImage = ( pro_id, img)=>(dispatch)=>{
-  axios.delete(`http://localhost:5000/products/gallary/${pro_id}/${img}`)
+  axios.delete(`products/gallary/${pro_id}/${img}`)
     .then(res=>{
       dispatch({
         type:GET_PRODUCT,

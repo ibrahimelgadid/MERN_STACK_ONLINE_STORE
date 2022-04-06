@@ -6,6 +6,7 @@ import { addNewComment, deletePost, likePost, unLikePost } from '../../ReduxCycl
 import { useState } from 'react';
 import EditPost from './EditPost';
 import { Modal } from 'react-bootstrap';
+import {imgServer} from "../../utilis/imageServer";
 
 
 function Posts({post}) {
@@ -44,7 +45,7 @@ function Posts({post}) {
 
         <h5 className="card-title">
           <img alt="" style={{borderRadius:'50px', width:'50px', height:'50px'}} src={post.user.avatar==='noimage.png'?`../../../images/${post.user.avatar}`:
-                  `http://localhost:5000/userAvatar/${post.user.avatar}`}/>
+                  `${imgServer}/userAvatar/${post.user.avatar}`}/>
             {' '}{post.user.name}
 
         </h5>

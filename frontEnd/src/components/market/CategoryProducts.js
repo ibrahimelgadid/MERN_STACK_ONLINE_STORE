@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { addProductToCart } from '../../ReduxCycle/actions/cartActions';
+import {imgServer} from "../../utilis/imageServer";
 
 function GridProduct({product}) {
 
@@ -25,7 +26,7 @@ function GridProduct({product}) {
       <div className="card">
         <div className="card-body text-center">
           <small className="badge bg-success float-start">-25</small>
-          <img className='w-100 h-100 img-fluid' src={`http://localhost:5000/proImage/${product.productImage}`} alt=''/>
+          <img className='w-100 h-100 img-fluid' src={`${imgServer}/proImage/${product.productImage}`} alt=''/>
           <h5 className='text-info'>{product.name}</h5> 
           <small className='text-muted'>From {product.brand}, As {product.category}</small>
           <strong className="text-primary float-start mt-2">${product.price}{' '}

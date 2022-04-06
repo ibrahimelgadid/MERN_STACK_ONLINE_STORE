@@ -4,7 +4,7 @@ import { ADD_POSTS, CLEAR_ERRORS, DELETE_POST, EDIT_POST, GET_ERRORS, GET_POST, 
 
 
 export const getPosts = ()=>(dispatch)=>{
-  axios.get('http://localhost:5000/posts')
+  axios.get('posts')
     .then(res=>{
         dispatch({
           type:GET_POSTS,
@@ -22,7 +22,7 @@ export const getPosts = ()=>(dispatch)=>{
 
 
 export const getPost = (postID)=>(dispatch)=>{
-  axios.get('http://localhost:5000/posts/'+postID)
+  axios.get('posts/'+postID)
     .then(res=>{
         dispatch({
           type:GET_POST,
@@ -42,7 +42,7 @@ export const getPost = (postID)=>(dispatch)=>{
 
 export const editPost = (postData,postID)=>(dispatch)=>{
   dispatch(clearErrors())
-  axios.put('http://localhost:5000/posts/'+postID, postData)
+  axios.put('posts/'+postID, postData)
     .then(res=>{
         dispatch({
           type:EDIT_POST,
@@ -60,7 +60,7 @@ export const editPost = (postData,postID)=>(dispatch)=>{
 
 export const addNewPost = (postData)=>(dispatch)=>{
   dispatch(clearErrors())
-  axios.post('http://localhost:5000/posts', postData)
+  axios.post('posts', postData)
     .then(res=>{
         dispatch({
           type:ADD_POSTS,
@@ -80,7 +80,7 @@ export const addNewPost = (postData)=>(dispatch)=>{
 
 export const deletePost = (postID)=>(dispatch)=>{
   dispatch(clearErrors())
-  axios.delete('http://localhost:5000/posts/'+postID )
+  axios.delete('posts/'+postID )
     .then(res=>{
         dispatch({
           type:DELETE_POST,
@@ -100,7 +100,7 @@ export const deletePost = (postID)=>(dispatch)=>{
 
 export const likePost = (postID)=>(dispatch)=>{
   dispatch(clearErrors())
-  axios.post('http://localhost:5000/posts/like/'+postID )
+  axios.post('posts/like/'+postID )
     .then(res=>{
         dispatch({
           type:EDIT_POST,
@@ -119,7 +119,7 @@ export const likePost = (postID)=>(dispatch)=>{
 
 export const unLikePost = (postID)=>(dispatch)=>{
   dispatch(clearErrors())
-  axios.post('http://localhost:5000/posts/unlike/'+postID )
+  axios.post('posts/unlike/'+postID )
     .then(res=>{
         dispatch({
           type:EDIT_POST,
@@ -138,7 +138,7 @@ export const unLikePost = (postID)=>(dispatch)=>{
 
 export const addNewComment = (commentData,postID)=>(dispatch)=>{
   dispatch(clearErrors())
-  axios.post('http://localhost:5000/posts/comment/'+postID, commentData )
+  axios.post('posts/comment/'+postID, commentData )
     .then(res=>{
         dispatch({
           type:EDIT_POST,
@@ -157,7 +157,7 @@ export const addNewComment = (commentData,postID)=>(dispatch)=>{
 
 export const deleteComment = (postID,commentID)=>(dispatch)=>{
   dispatch(clearErrors())
-  axios.delete('http://localhost:5000/posts/comment/'+postID+'/'+commentID)
+  axios.delete('posts/comment/'+postID+'/'+commentID)
     .then(res=>{
         dispatch({
           type:EDIT_POST,

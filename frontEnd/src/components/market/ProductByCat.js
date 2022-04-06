@@ -8,6 +8,7 @@ import { getProducts, getProductsByBrand, getProductsByCategory } from '../../Re
 import isEmpty from "../../utilis/isEmpty";
 import Brands from './Brands';
 import Categories from './Categories';
+import {imgServer} from "../../utilis/imageServer";
 
 
 function ProductByCategory() {
@@ -81,7 +82,7 @@ function ProductByCategory() {
                       <small className="badge bg-sm bg-primary float-start">${product.price}</small>
                       <small className="badge bg-success float-end">-25</small>
                       {/* <div className='row'> */}
-                        <img className='w-100 h-100 img-fluid' src={`http://localhost:5000/proImage/${product.productImage}`} alt=''/>
+                        <img className='w-100 h-100 img-fluid' src={`${imgServer}/proImage/${product.productImage}`} alt=''/>
                       {/* </div> */}
                       <h5 className='text-info'>{product.name}</h5> 
                       <small className='text-muted'>from {product.brand}, as {product.category}</small>

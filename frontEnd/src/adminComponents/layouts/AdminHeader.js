@@ -9,8 +9,9 @@ import {
   getNotifications,
 } from "../../ReduxCycle/actions/notificationsActions";
 import { format } from "timeago.js";
+import {socketConn} from '../../utilis/socket';
 
-var socket = io("http://localhost:5000");
+var socket = io(socketConn);
 
 function AdminHeader() {
   let navbaradgeq = {
@@ -24,7 +25,7 @@ function AdminHeader() {
     color: "azure",
   };
 
-  const { notifications } = useSelector((state) => state.notificationsReducer);
+  const { notifications, loading } = useSelector((state) => state.notificationsReducer);
   const GetNotifications = bindActionCreators(getNotifications, useDispatch());
   const ClearNotification = bindActionCreators(clearNotification, useDispatch());
 
@@ -80,6 +81,7 @@ function AdminHeader() {
               {notifications.length}
             </span>
           </a>
+        {!loading && <>
           <div
           onClick={(e)=>e.stopPropagation()}
             className="dropdown-menu dropdown-menu-lg dropdown-menu-right"
@@ -98,6 +100,8 @@ function AdminHeader() {
                   ?(<span className="dropdown-item p-2">
                     <strong className="text-danger">
                       {noty.from.name}
+                      {console.log(noty.from)
+                      }
                     </strong>{" "}
                     add new item
                     <span className="text-danger" style={{ fontSize: "12px" }}>
@@ -150,6 +154,7 @@ function AdminHeader() {
               See All Notifications
             </a>
           </div>
+          </>}
         </li>
        
         <li className="nav-item">

@@ -6,7 +6,7 @@ import { CLEAR_ERRORS, GET_ERRORS, EDIT_BRAND, GET_BRAND, DELETE_BRAND, ADD_BRAN
 
 export const addNewBrand = (brandData,)=>(dispatch)=>{
  dispatch( clearErrors());
-  axios.post('http://localhost:5000/brands', brandData)
+  axios.post('brands', brandData)
     .then(res=>{
       dispatch({
         type:ADD_BRAND,
@@ -26,7 +26,7 @@ export const addNewBrand = (brandData,)=>(dispatch)=>{
 
 export const editBrand = (brandData, id)=>(dispatch)=>{
   dispatch( clearErrors());
-  axios.put('http://localhost:5000/brands/'+id, brandData)
+  axios.put('brands/'+id, brandData)
     .then(res=>{
       dispatch({
         type:EDIT_BRAND,
@@ -43,7 +43,7 @@ export const editBrand = (brandData, id)=>(dispatch)=>{
 }
 
 export const getBrands = ()=>(dispatch)=>{
-  axios.get('http://localhost:5000/brands')
+  axios.get('brands')
     .then(res=>{
         dispatch({
           type:GET_BRANDS,
@@ -60,7 +60,7 @@ export const getBrands = ()=>(dispatch)=>{
 }
 
 export const getBrand = (brand_id)=>(dispatch)=>{
-  axios.get('http://localhost:5000/brands/'+brand_id)
+  axios.get('brands/'+brand_id)
     .then(res=>{
         dispatch({
           type:GET_BRAND,
@@ -80,7 +80,7 @@ export const getBrand = (brand_id)=>(dispatch)=>{
 
 
 export const deleteBrand = (brand_id)=>(dispatch)=>{
-  axios.delete('http://localhost:5000/brands/'+brand_id)
+  axios.delete('brands/'+brand_id)
     .then(res=>{
         toast.success('brand has been deleted', {theme:'colored'})
         dispatch({

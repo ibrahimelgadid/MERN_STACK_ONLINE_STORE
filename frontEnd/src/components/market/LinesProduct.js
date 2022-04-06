@@ -6,10 +6,13 @@ import io from 'socket.io-client'
 import { addProductToCart } from '../../ReduxCycle/actions/cartActions';
 import { addNewNotification } from '../../ReduxCycle/actions/notificationsActions';
 
+import {socketConn} from '../../utilis/socket';
+import { imgServer } from '../../utilis/imageServer';
 
+var socket = io(socketConn);
 
 function LinesProduct({product, user}) {
-  var socket = io('http://localhost:5000')
+
   const AddProductToCart = bindActionCreators(addProductToCart, useDispatch());
   const AddNewNotification = bindActionCreators(addNewNotification, useDispatch());
   const navigate = useNavigate()
@@ -43,7 +46,7 @@ function LinesProduct({product, user}) {
       <div className="row g-0">
         <div className="col-sm-4">
             <small className="badge bg-success float-start">-25</small>
-          <img className='w-100 h-100 img-fluid rounded-start' src={`http://localhost:5000/proImage/${product.productImage}`} alt="..."/>
+          <img className='w-100 h-100 img-fluid rounded-start' src={`${imgServer}/proImage/${product.productImage}`} alt="..."/>
         </div>
         <div className="col-sm-8">
           <div className="card-body">

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { deleteProduct, getProductsForAdmins } from '../../ReduxCycle/actions/productsActions';
 import isEmpty from '../../utilis/isEmpty';
 import { Link, useNavigate } from "react-router-dom";
+import {imgServer} from "../../utilis/imageServer";
 
 function AllProducts() {
 
@@ -48,7 +49,7 @@ function AllProducts() {
                   <img 
                     className='img-circle  elevation-2' 
                     src={product.productImage==='noimage.png'?`../../../images/${product.productImage}`:
-                      `http://localhost:5000/proImage/${product.productImage}`}
+                      `${imgServer}/proImage/${product.productImage}`}
                     style={{width:'40px', height:"40px"}} alt={product.name}
                   />
                 </td>

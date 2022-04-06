@@ -6,7 +6,7 @@ import { ADD_CATEGORY, CLEAR_ERRORS, DELETE_CATEGORY, EDIT_CATEGORY, GET_CATEGOR
 
 export const addNewCategory = (categoryData,)=>(dispatch)=>{
  dispatch( clearErrors());
-  axios.post('http://localhost:5000/categories', categoryData)
+  axios.post('categories', categoryData)
     .then(res=>{
       dispatch({
         type:ADD_CATEGORY,
@@ -26,7 +26,7 @@ export const addNewCategory = (categoryData,)=>(dispatch)=>{
 
 export const editCategory = (categoryData, id)=>(dispatch)=>{
   dispatch( clearErrors());
-  axios.put('http://localhost:5000/categories/'+id, categoryData)
+  axios.put('categories/'+id, categoryData)
     .then(res=>{
       dispatch({
         type:EDIT_CATEGORY,
@@ -43,7 +43,7 @@ export const editCategory = (categoryData, id)=>(dispatch)=>{
 }
 
 export const getCategories = ()=>(dispatch)=>{
-  axios.get('http://localhost:5000/categories')
+  axios.get('categories')
     .then(res=>{
         dispatch({
           type:GET_CATEGORIES,
@@ -60,7 +60,7 @@ export const getCategories = ()=>(dispatch)=>{
 }
 
 export const getCategory = (category_id)=>(dispatch)=>{
-  axios.get('http://localhost:5000/categories/'+category_id)
+  axios.get('categories/'+category_id)
     .then(res=>{
         dispatch({
           type:GET_CATEGORY,
@@ -80,7 +80,7 @@ export const getCategory = (category_id)=>(dispatch)=>{
 
 
 export const deleteCategory = (category_id)=>(dispatch)=>{
-  axios.delete('http://localhost:5000/categories/'+category_id)
+  axios.delete('categories/'+category_id)
     .then(res=>{
         toast.success('Category has been deleted', {theme:'colored'})
         dispatch({

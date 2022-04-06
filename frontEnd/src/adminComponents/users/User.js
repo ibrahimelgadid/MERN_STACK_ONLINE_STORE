@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { getUser } from '../../ReduxCycle/actions/membersActions';
 import isEmpty from '../../utilis/isEmpty';
 import Moment from 'react-moment';
+import {imgServer} from "../../utilis/imageServer";
 
 
 function User() {
@@ -45,7 +46,7 @@ function User() {
                 alt=''
                   className='img-fluid rounded-circle img-thumbnail mx-auto' 
                   src={user.avatar==='noimage.png'?`../../../images/${user.avatar}`:
-                  `http://localhost:5000/userAvatar/${user.avatar}`} 
+                  `${imgServer}/userAvatar/${user.avatar}`} 
                 />
               </div>
               <p><strong><i className='fas fa-user'></i> Name:- </strong> <small className='text-muted'>{user.name}</small></p>

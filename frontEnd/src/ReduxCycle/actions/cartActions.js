@@ -5,7 +5,7 @@ import { CLEAR_ERRORS, GET_CART, GET_ERRORS, PRODUCT_DEC, PRODUCT_DELETE, PRODUC
 export const addProductToCart = (productData) => (dispatch) => {
   dispatch(clearErrors());
   axios
-    .post("http://localhost:5000/cart/addtocart", productData)
+    .post("cart/addtocart", productData)
     .then((res) => {
       dispatch({
         type:GET_CART,
@@ -26,7 +26,7 @@ export const addProductToCart = (productData) => (dispatch) => {
 
 export const cartProductInc = (productData) => (dispatch) => {
   axios
-    .post("http://localhost:5000/cart/iqty", productData)
+    .post("cart/iqty", productData)
     .then((res) => {
       dispatch({
         type:PRODUCT_INC,
@@ -47,7 +47,7 @@ export const cartProductInc = (productData) => (dispatch) => {
 
 export const cartProductValue = (productData) => (dispatch) => {
   axios
-    .post("http://localhost:5000/cart/vqty", productData)
+    .post("cart/vqty", productData)
     .then((res) => {
       dispatch({
         type:PRODUCT_INC,
@@ -68,7 +68,7 @@ export const cartProductValue = (productData) => (dispatch) => {
 
 export const cartProductDec = (productData) => (dispatch) => {
   axios
-    .post("http://localhost:5000/cart/dqty", productData)
+    .post("cart/dqty", productData)
     .then((res) => {
       dispatch({
         type:PRODUCT_DEC,
@@ -89,7 +89,7 @@ export const cartProductDec = (productData) => (dispatch) => {
 
 export const getCartElements = () => (dispatch) => {
   axios
-    .get("http://localhost:5000/cart")
+    .get("cart")
     .then((res) => {
       dispatch({
         type:GET_CART,
@@ -110,7 +110,7 @@ export const getCartElements = () => (dispatch) => {
 export const deleteProductFromCart = (data) => (dispatch) => {
   dispatch(clearErrors());
   axios
-    .post("http://localhost:5000/cart/pro", data)
+    .post("cart/pro", data)
     .then((res) => {
       dispatch({
         type:PRODUCT_DELETE,
@@ -131,7 +131,7 @@ export const deleteProductFromCart = (data) => (dispatch) => {
 export const clearCart = () => (dispatch) => {
   dispatch(clearErrors());
   axios
-    .post("http://localhost:5000/cart/clear")
+    .post("cart/clear")
     .then((res) => {
       dispatch({
         type:GET_CART,

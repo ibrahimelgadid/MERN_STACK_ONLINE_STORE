@@ -7,7 +7,6 @@ const User = require('../../models/User');
 const Token = require('../../models/token');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const secret = require('../../config/jwtSecret').secret;
 const passport = require('passport');
 const registrationError = require('../../validation/register');
 const loginErrors = require('../../validation/login');
@@ -206,7 +205,7 @@ router.post('/login',(req,res,next)=>{
             social:user.social
             }
 
-        jwt.sign(payload, secret, {expiresIn:3600*24}, (err,token)=>{
+        jwt.sign(payload, process.env.JWT_SECRET, {expiresIn:3600*24}, (err,token)=>{
             
             if (err) {console.log(err);}
 

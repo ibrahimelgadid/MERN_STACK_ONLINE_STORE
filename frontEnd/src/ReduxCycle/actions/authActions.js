@@ -10,6 +10,7 @@ import jwtDecode from "jwt-decode";
 import setTokenInHeaders from "../../utilis/setTokenInHeaders";
 import io from 'socket.io-client'
 import { addNewNotification } from '../../ReduxCycle/actions/notificationsActions';
+import {socketConn} from "../../utilis/socket";
 
 
 
@@ -19,13 +20,13 @@ import { addNewNotification } from '../../ReduxCycle/actions/notificationsAction
 export const register = (registerData, navigate) => (dispatch) => {
   dispatch(clearErrors());
   axios
-    .post("http://localhost:5000/users/register", registerData)
+    .post("users/register", registerData)
     .then((res) => {
 
       toast.success("You have been registered, login now", {
         theme: "colored",
       });
-      var socket = io('http://localhost:5000')
+      var socket = io(socketConn)
 
       //real-time notification
       socket.emit('notify',{
@@ -54,7 +55,7 @@ export const register = (registerData, navigate) => (dispatch) => {
 export const login = (loginData) => (dispatch) => {
   dispatch(clearErrors());
   axios
-    .post("http://localhost:5000/users/login", loginData)
+    .post("users/login", loginData)
     .then((res) => {
       let { token } = res.data;
       let decodedData = jwtDecode(token);
@@ -88,7 +89,7 @@ export const logOut = () => (dispatch) => {
 export const editProfile = (editProfileData, navigate) => (dispatch) => {
   dispatch(clearErrors());
   axios
-    .put("http://localhost:5000/users/edit", editProfileData)
+    .put("users/edit", editProfileData)
     .then((res) => {
       localStorage.removeItem("token");
       setTokenInHeaders(false);
@@ -112,7 +113,7 @@ export const editProfile = (editProfileData, navigate) => (dispatch) => {
 export const changeImg = (imgData) => (dispatch) => {
   dispatch(clearErrors());
   axios
-    .put("http://localhost:5000/users/changeImg", imgData)
+    .put("users/changeImg", imgData)
     .then((res) => {
       localStorage.removeItem("token");
       setTokenInHeaders(false);
@@ -135,7 +136,7 @@ export const changeImg = (imgData) => (dispatch) => {
 
 export const getProfile = () => (dispatch) => {
   axios
-    .get("http://localhost:5000/users")
+    .get("users")
     .then((res) => {
       dispatch({
         type: GET_USER_EDIT,
@@ -155,7 +156,7 @@ export const sendMailToResetPass =
   (data, navigate, setLoading) => (dispatch) => {
     setLoading(true);
     axios
-      .post("http://localhost:5000/users/reset-password-by-mail", data)
+      .post("users/reset-password-by-mail", data)
       .then((res) => {
         setLoading(false);
         navigate("/verify");
@@ -172,7 +173,7 @@ export const sendMailToResetPass =
   export const resetPass =
   (data, navigate, token, email) => (dispatch) => {
     axios
-      .post(`http://localhost:5000/users/resetPass/${token}/${email}`, data)
+      .post(`users/resetPass/${token}/${email}`, data)
       .then((res) => {
         navigate("/login");
         toast.success('Your password has been changed, plesse login now',{theme:'colored'})

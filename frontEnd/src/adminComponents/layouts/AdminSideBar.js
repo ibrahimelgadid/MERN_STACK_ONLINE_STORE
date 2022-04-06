@@ -6,6 +6,8 @@ import { getBrands } from '../../ReduxCycle/actions/brandsActions';
 import { getCategories } from '../../ReduxCycle/actions/categoriesActions';
 import { getUsers } from '../../ReduxCycle/actions/membersActions';
 import { getProducts } from '../../ReduxCycle/actions/productsActions';
+import {imgServer} from "../../utilis/imageServer";
+
 
 export default function AdminSideBar() {
 
@@ -47,7 +49,7 @@ export default function AdminSideBar() {
                 className='img-circle elevation-2' 
                 style={{width:'50px', height:'50px'}}
                 src={user.avatar==='noimage.png'?`../../../images/${user.avatar}`:
-                  `http://localhost:5000/userAvatar/${user.avatar}`} />
+                  `${imgServer}/userAvatar/${user.avatar}`} />
             </div>
             <div className="info ">
               <Link to="#" >{user.name}</Link>

@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 import { addProductToCart } from '../../ReduxCycle/actions/cartActions';
 import io from 'socket.io-client'
 import { addNewNotification } from '../../ReduxCycle/actions/notificationsActions';
+import {socketConn} from '../../utilis/socket';
+import {imgServer} from '../../utilis/imageServer';
 
-
-var socket = io('http://localhost:5000')
-
+var socket = io(socketConn);
 function GridProduct({product, user}) {
 
   const AddProductToCart = bindActionCreators(addProductToCart, useDispatch());
@@ -43,7 +43,7 @@ function GridProduct({product, user}) {
       <div className="card">
         <div className="card-body text-center">
           <small className="badge bg-success float-start">-25</small>
-          <img className='w-100 h-100 img-fluid' src={`http://localhost:5000/proImage/${product.productImage}`} alt=''/>
+          <img className='w-100 h-100 img-fluid' src={`${imgServer}/proImage/${product.productImage}`} alt=''/>
           <h5 className='text-info'>{product.name}</h5> 
           <small className='text-muted'>From {product.brand}, As {product.category}</small>
           <strong className="text-primary float-start mt-2">${product.price}{' '}

@@ -7,6 +7,7 @@ import { addGallaryImages, deleteGallaryImage, getProduct } from '../../ReduxCyc
 import isEmpty from '../../utilis/isEmpty';
 import Moment from 'react-moment';
 import { DropzoneArea } from 'material-ui-dropzone';
+import {imgServer} from "../../utilis/imageServer";
 
 
 
@@ -65,7 +66,7 @@ function Product() {
                 <img alt='' style={{width:'150px', height:'150px'}}
                   className='img-fluid rounded-circle img-thumbnail mx-auto' 
                   src={product.productImage==='noimage.png'?`../../../images/${product.productImage}`:
-                  `http://localhost:5000/proImage/${product.productImage}`} 
+                  `${imgServer}/proImage/${product.productImage}`} 
                 />
               </div>
               <p><strong><i className='fas fa-user'></i> Name:- </strong> <small className='text-muted'>{product.name}</small></p>
@@ -86,7 +87,7 @@ function Product() {
                         alt={img}
                         className='img-fluid rounded-circle img-thumbnail mx-auto' 
                         style={{width:'50px', height:'50px'}}
-                        src={`http://localhost:5000/gallary/${product._id}/${img}`}
+                        src={`${imgServer}/gallary/${product._id}/${img}`}
                       />
                         <span
                           onClick={()=>DeleteImage(product._id, img)}

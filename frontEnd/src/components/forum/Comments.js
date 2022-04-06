@@ -3,6 +3,7 @@ import Moment from "react-moment";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { deleteComment } from "../../ReduxCycle/actions/postsActions";
+import {imgServer} from "../../utilis/imageServer";
 
 function Comments({ comment, postID }) {
   const [actions, setActions] = useState(false);
@@ -27,7 +28,7 @@ function Comments({ comment, postID }) {
         src={
           comment.user.avatar === "noimage.png"
             ? `../../../images/${comment.user.avatar}`
-            : `http://localhost:5000/userAvatar/${comment.user.avatar}`
+            : `${imgServer}/userAvatar/${comment.user.avatar}`
         }
       />
       <div className="direct-chat-text">

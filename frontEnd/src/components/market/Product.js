@@ -7,7 +7,7 @@ import { getProduct } from '../../ReduxCycle/actions/productsActions';
 import isEmpty from '../../utilis/isEmpty';
 import Moment from 'react-moment';
 import Fancybox from "./fancybox/Fancybox";
-
+import {imgServer} from "../../utilis/imageServer";
 
 
 
@@ -47,7 +47,7 @@ function Product() {
                 <img style={{width:'150px', height:'150px'}} alt={product.productImage}
                   className='img-fluid rounded-circle img-thumbnail mx-auto' 
                   src={product.productImage==='noimage.png'?`../../../images/${product.productImage}`:
-                  `http://localhost:5000/proImage/${product.productImage}`} 
+                  `${imgServer}/proImage/${product.productImage}`} 
                 />
               </div>
               <p><strong><i className='fas fa-user'></i> Name:- </strong> <small className='text-muted'>{product.name}</small></p>
@@ -65,12 +65,12 @@ function Product() {
                   <strong><i className='fas fa-img'></i> Gallary:- </strong>
                   {product.productGallary.map(img=>(
 
-                    <span data-fancybox="gallery"  data-src={`http://localhost:5000/gallary/${product._id}/${img}`}>
+                    <span data-fancybox="gallery"  data-src={`${imgServer}/gallary/${product._id}/${img}`}>
                       <img
                         alt=""
                         className='img-fluid rounded-circle img-thumbnail mx-auto' 
                         style={{width:'50px', height:'50px', cursor:'pointer'}}
-                        src={`http://localhost:5000/gallary/${product._id}/${img}`} 
+                        src={`${imgServer}/gallary/${product._id}/${img}`} 
                       />
                     </span>
 
