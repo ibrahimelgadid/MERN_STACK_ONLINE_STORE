@@ -72,7 +72,7 @@ const Header = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/account/orders">
+                      <Link className="dropdown-item" to="/orders">
                         <IconListCheck className="text-primary" /> Orders
                       </Link>
                     </li>
