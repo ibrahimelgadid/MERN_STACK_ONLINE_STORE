@@ -66,19 +66,10 @@ const Header = () => {
                         <IconPersonBadgeFill /> My Profile
                       </Link>
                     </li>
-                    <li>
-                      <Link className="dropdown-item" to="/star/zone">
-                        <IconStarFill className="text-warning" /> Star Zone
-                      </Link>
-                    </li>
+
                     <li>
                       <Link className="dropdown-item" to="/orders">
                         <IconListCheck className="text-primary" /> Orders
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item" to="/account/wishlist">
-                        <IconHeartFill className="text-danger" /> Wishlist
                       </Link>
                     </li>
                     <li>
@@ -100,7 +91,7 @@ const Header = () => {
                   </ul>
                 </div>
                 <a
-                  href="https://www.buymeacoffee.com/bhaumik"
+                  href="https://www.buymeacoffee.com/ibrahimelgadid"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
