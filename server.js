@@ -43,6 +43,12 @@ mongoose.connect(process.env.mongoURI)
 app.use(passport.initialize());
 require('./config/passport')(passport)
 
+////////////////////////////////////
+
+// teststststststsststststststststst
+
+/////////////
+
 
 
 //---------------------------------------------|

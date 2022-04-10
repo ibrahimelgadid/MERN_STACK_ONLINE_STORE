@@ -12,12 +12,12 @@ import isEmpty from "../../../utilis/isEmpty";
 
 function CheckOut() {
 
-  let [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState('')
 
 
   
-  let {cart,loading, selectedProduct} = useSelector(state=>state.cartReducer);
-  let GetCartElements = bindActionCreators(getCartElements,useDispatch());
+  const {cart,loading, selectedProduct} = useSelector(state=>state.cartReducer);
+  const GetCartElements = bindActionCreators(getCartElements,useDispatch());
 
 
   useEffect(()=>{

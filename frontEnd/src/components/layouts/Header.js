@@ -2,10 +2,8 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
 import { ReactComponent as IconPersonBadgeFill } from "bootstrap-icons/icons/person-badge-fill.svg";
-import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { ReactComponent as IconListCheck } from "bootstrap-icons/icons/list-check.svg";
 import { ReactComponent as IconDoorClosedFill } from "bootstrap-icons/icons/door-closed-fill.svg";
-import { ReactComponent as IconHeartFill } from "bootstrap-icons/icons/heart-fill.svg";
 import { ReactComponent as IconBellFill } from "bootstrap-icons/icons/bell-fill.svg";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -18,11 +16,11 @@ import {imgServer} from "../../utilis/imageServer";
 
 const Header = () => {
 
-  let {cart} = useSelector(state=>state.cartReducer)
-  let {isAuthenticated, user} = useSelector(state => state.authReducer)
-  let dispatch = useDispatch();
-  let LogOut = bindActionCreators(logOut,dispatch);
-  let GetCartElements = bindActionCreators(getCartElements, dispatch);
+  const {cart} = useSelector(state=>state.cartReducer)
+  const {isAuthenticated, user} = useSelector(state => state.authReducer)
+  const dispatch = useDispatch();
+  const LogOut = bindActionCreators(logOut,dispatch);
+  const GetCartElements = bindActionCreators(getCartElements, dispatch);
 
 
   useEffect(()=>{

@@ -18,6 +18,7 @@ import classNames from "classnames";
 import ModalSearch from "./ModalSearch";
 import Sort from "./Sort";
 import { Pagination } from "react-bootstrap";
+import Carousel from "./Carousel";
 
 function Market() {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -34,9 +34,7 @@ function Cart({ cart, loading, selectedProduct, phone }) {
       paymentId: token.id,
       address: `city: ${token.card.address_city} country: ${token.card.addresscountry}`,
     };
-    console.log(orderData);
     AddNewOrder(orderData, navigate);
-    console.log(token);
   };
 
   useEffect(() => {
@@ -79,7 +77,7 @@ function Cart({ cart, loading, selectedProduct, phone }) {
       </ul>
       <div className="card-footer border-info">
         {
-         phone.length>10 &&(
+        phone.length>10 && !isNaN(phone)?(
           <Stripe
             name="React E-commerce"
             image="https://www.vidhub.co/assets/logos/vidhub-icon-2e5c629f64ced5598a56387d4e3d0c7c.png"
@@ -91,10 +89,10 @@ function Cart({ cart, loading, selectedProduct, phone }) {
             billingAddress
           >
             <button type="submit" className="btn btn-block btn-info text-white">
-              Pay Now <strong>${cart.totalPrice * 100}</strong>
+              Pay Now <strong>${cart.totalPrice}</strong>
             </button>
           </Stripe>
-         )
+        ):null
         }
         
       </div>

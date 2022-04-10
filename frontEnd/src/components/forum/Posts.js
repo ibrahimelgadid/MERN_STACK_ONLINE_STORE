@@ -10,30 +10,30 @@ import {imgServer} from "../../utilis/imageServer";
 
 
 function Posts({post}) {
-  let [postID, setPostID] = useState('')
-  let [comment, setComment] = useState('')
+  const [postID, setPostID] = useState('')
+  const [comment, setComment] = useState('')
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  let DeletePost = bindActionCreators(deletePost, useDispatch())
-  let LikePost = bindActionCreators(likePost, useDispatch())
-  let UnLikePost = bindActionCreators(unLikePost, useDispatch())
-  let AddNewComment = bindActionCreators(addNewComment, useDispatch())
+  const DeletePost = bindActionCreators(deletePost, useDispatch())
+  const LikePost = bindActionCreators(likePost, useDispatch())
+  const UnLikePost = bindActionCreators(unLikePost, useDispatch())
+  const AddNewComment = bindActionCreators(addNewComment, useDispatch())
   
-  let handleLike = (id)=>{
+  const handleLike = (id)=>{
     LikePost(id)
   }
-  let handleUnLike = (id)=>{
+  const handleUnLike = (id)=>{
     UnLikePost(id)
   }
-  let handleDelete = (id)=>{
+  const handleDelete = (id)=>{
     DeletePost(id)
   }
 
-  let handleSubmit= (e)=>{
+  const handleSubmit= (e)=>{
     e.preventDefault();
-    let commentData = { comment }
+    const commentData = { comment }
     AddNewComment(commentData, post._id)
     setComment('')
     // console.log(commentData, post._id);

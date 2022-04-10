@@ -10,20 +10,20 @@ import classnames from "classnames";
 
 function Forum() {
 
-  let [text, setText] = useState('')
-  let {posts,loading} = useSelector(state=>state.postsReducer)
+  const [text, setText] = useState('')
+  const {posts,loading} = useSelector(state=>state.postsReducer)
   const [errors, setErrors]  = useState('');
-  let [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
 
-  let errorsFromState = useSelector(state=> state.errorsReducer);
-  let GetPosts = bindActionCreators(getPosts, useDispatch())
-  let AddNewPost = bindActionCreators(addNewPost, useDispatch())
+  const errorsFromState = useSelector(state=> state.errorsReducer);
+  const GetPosts = bindActionCreators(getPosts, useDispatch())
+  const AddNewPost = bindActionCreators(addNewPost, useDispatch())
 
 
-  let handleSubmit = (e)=>{
+  const handleSubmit = (e)=>{
     e.preventDefault();
-    let postData = {
+    const postData = {
       text
     }
     AddNewPost(postData);
@@ -80,7 +80,7 @@ function Forum() {
                 <Posts key={post._id} post={post}/>
               ))
             ):(
-              <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no orders</strong>
+              <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no posts</strong>
             )
           )}
         </div>
@@ -105,27 +105,7 @@ function Forum() {
             style={{width: "25%"}}
           ></div>
         </div>
-        <a className="btn btn-sm btn-outline-info mr-2 mb-2" href="/">
-          Summer
-        </a>
-        <a className="btn btn-sm btn-outline-secondary mr-2 mb-2" href="/">
-          Clothing
-        </a>
-        <a className="btn btn-sm btn-outline-success mr-2 mb-2" href="/">
-          Woman
-        </a>
-        <a className="btn btn-sm btn-outline-danger mr-2 mb-2" href="/">
-          Hot Trend
-        </a>
-        <a className="btn btn-sm btn-outline-dark mr-2 mb-2" href="/">
-          Jacket
-        </a>
-        <a className="btn btn-sm btn-outline-primary mr-2 mb-2" href="/">
-          Men
-        </a>
-        <a className="btn btn-sm btn-outline-warning mr-2 mb-2" href="/">
-          Luxyry
-        </a>
+
       </div>
     </div>
   );

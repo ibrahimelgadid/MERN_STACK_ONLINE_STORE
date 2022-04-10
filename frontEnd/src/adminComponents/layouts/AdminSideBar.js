@@ -6,6 +6,7 @@ import { getBrands } from '../../ReduxCycle/actions/brandsActions';
 import { getCategories } from '../../ReduxCycle/actions/categoriesActions';
 import { getUsers } from '../../ReduxCycle/actions/membersActions';
 import { getProducts } from '../../ReduxCycle/actions/productsActions';
+import { getOrders } from '../../ReduxCycle/actions/ordersAction';
 import {imgServer} from "../../utilis/imageServer";
 
 
@@ -27,11 +28,15 @@ export default function AdminSideBar() {
   const {categories} = useSelector(state=>state.categoriesReducer);
   const GetCategories = bindActionCreators( getCategories, dispatch)
 
+  const {orders} = useSelector(state=>state.ordersReducer);
+  const GetOrders = bindActionCreators( getOrders, dispatch)
+
   useEffect(() => {
     GetProducts();
     GetUsers();
     GetBrands();
     GetCategories()
+    GetOrders()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
@@ -194,7 +199,7 @@ export default function AdminSideBar() {
                   <p>
                     Orders
                     <i className="fas fa-angle-left right"></i>
-                    {/* <span className="badge badge-info right">{orders.length}</span> */}
+                    <span className="badge badge-info right">{orders.length}</span>
                   </p>
                 </Link>
                 <ul className="nav nav-treeview">

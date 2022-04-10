@@ -9,7 +9,7 @@ import classnames from 'classnames'
 
 function AllOrders() {
 
- const {orders} = useSelector(state=>state.ordersReducer)
+ const {orders, loading} = useSelector(state=>state.ordersReducer)
   const GetOrders = bindActionCreators(getOrders, useDispatch())
   const DeleteOrder = bindActionCreators( deleteOrder, useDispatch())
  const navigate = useNavigate()
@@ -71,7 +71,7 @@ function AllOrders() {
             ))}
           </tbody>
         </table>
-  ):<Spinner animation="border" role="status" />;
+  ):loading?<Spinner animation="border" role="status" />:<strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no products</strong>;
   return (
     <div className='brands container mt-4'>
       <h3 className='text-center text-info'>Orders Show</h3>
