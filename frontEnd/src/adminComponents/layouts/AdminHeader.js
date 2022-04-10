@@ -93,15 +93,13 @@ function AdminHeader() {
             </span>
             <div className="dropdown-divider"></div>
 
-            {notifications.length ? (
+            {notifications.length>0 ? (
               notifications.map(noty => (
                 <Fragment key={noty._id} >
                   {noty.type === 'cartItemChange'
                   ?(<span className="dropdown-item p-2">
                     <strong className="text-danger">
                       {noty.from.name}
-                      {console.log(noty.from)
-                      }
                     </strong>{" "}
                     add new item
                     <span className="text-danger" style={{ fontSize: "12px" }}>

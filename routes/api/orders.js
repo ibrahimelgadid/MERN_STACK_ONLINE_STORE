@@ -9,12 +9,6 @@ const Cart = require('../../models/Cart');
 const OrdersErrors = require('../../validation/orders');
 
 
-//---------------------------------------------|
-//             GET TEST ORDERS                 |
-//---------------------------------------------|
-router.get('/test', (req, res) => res.json({ msg: 'ORDERS Works' }));
-
-
 
 
 //---------------------------------------------|
@@ -58,7 +52,7 @@ router.post('/', passport.authenticate('jwt', {session:false}),(req, res) => {
 //              GET ALL ORDERS                 |
 //---------------------------------------------|
 router.get('/', passport.authenticate('jwt', {session:false}),(req, res) => {
-  Order.find()
+  Order.find({orderOwner:req.user.id})
   .populate('orderOwner', 'name')
   .then(orders=>{
     return res.status(200).json(orders)
