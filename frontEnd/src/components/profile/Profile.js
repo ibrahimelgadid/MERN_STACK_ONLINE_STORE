@@ -14,23 +14,23 @@ import {imgServer} from "../../utilis/imageServer";
 
 function Profile() {
   
-  let [userAvatar, setUserAvatar] = useState('');
-  let [errors, setErrors] = useState({});
-  let [isMounted, setIsMounted] = useState(false);
+  const [userAvatar, setUserAvatar] = useState('');
+  const [errors, setErrors] = useState({});
+  const [isMounted, setIsMounted] = useState(false);
 
-  let {user} = useSelector(state=>state.authReducer);
-  let dispatch = useDispatch();
-  let ChangeImg = bindActionCreators(changeImg,dispatch)
-  let imgRef = useRef()
-  let errorsFromState = useSelector(state=> state.errorsReducer);
+  const {user} = useSelector(state=>state.authReducer);
+  const dispatch = useDispatch();
+  const ChangeImg = bindActionCreators(changeImg,dispatch)
+  const imgRef = useRef()
+  const errorsFromState = useSelector(state=> state.errorsReducer);
 
 
-  let blockUpload = userAvatar===''?'d-none':'d-block';
-    let blockEdit= userAvatar!==''?'d-none':'d-block';
+  const blockUpload = userAvatar===''?'d-none':'d-block';
+    const blockEdit= userAvatar!==''?'d-none':'d-block';
 
-  let handleChangeImg = (e)=>{
+  const handleChangeImg = (e)=>{
     e.preventDefault();
-    let userAvatarData = new FormData();
+    const userAvatarData = new FormData();
     userAvatarData.append('userAvatar', userAvatar)
     userAvatarData.append('oldImg', user.avatar)
     ChangeImg(userAvatarData);

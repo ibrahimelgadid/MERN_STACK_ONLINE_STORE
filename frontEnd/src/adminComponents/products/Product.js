@@ -37,7 +37,6 @@ function Product() {
       for (const key of Object.keys(productImage)) {
         productImages.append("gallary", productImage[key]);
       }
-      console.log(...productImages);
       AddGallaryImages(productImages, productId, navigate);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,8 +106,7 @@ function Product() {
                       <i className="fas fa-img"></i> Gallary:-{" "}
                     </strong>
                     {product.productGallary.map((img) => (
-                      <>
-                        <span className="position-relative">
+                        <span key={img} className="position-relative">
                           <img
                             alt={img}
                             className="img-fluid rounded-circle img-thumbnail mx-auto"
@@ -123,7 +121,6 @@ function Product() {
                             <i className="fa fa-times"></i>
                           </span>
                         </span>
-                      </>
                     ))}
                   </p>
                 )}

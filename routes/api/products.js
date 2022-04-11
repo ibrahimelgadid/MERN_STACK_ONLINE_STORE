@@ -19,6 +19,7 @@ const gallaryStorage = multer.diskStorage({
   destination:function (req,file, cb) {
   let path ;
   if ( fs.existsSync('public/gallary/'+req.params.pro_id)) {
+    console.log('exist')
       path = 'public/gallary/'+req.params.pro_id;
   } 
   else {
@@ -382,6 +383,15 @@ router.delete('/:pro_id', passport.authenticate('jwt', {session:false}),(req, re
           })
           }
 
+          //delete product gallary if exists
+          if(fs.existsSync(`public/gallary/${req.params.pro_id}`)){
+            fs.rm(`public/gallary/${req.params.pro_id}`, {recursive:true},(err)=>{
+              if (err) {
+              console.log(err)
+              } 
+            })
+          }
+
           return res.status(200).json('done');
         }
         let errors = {};
@@ -433,15 +443,10 @@ router.post('/gallary/:pro_id',passport.authenticate('jwt',
   if(err) return console.log(err.message);
 }
 ,(req,res)=>{
-  
-  // console.log(req.files);
-  // Product.findOne({_id:req.params.pro_id}, (err,product)=>{
-  //   req.files.map(file=>product['productGallary'].push(file.filename))
     Product.findOneAndUpdate({_id:req.params.pro_id},{$push:{productGallary:{$each:req.files.map(file=>file.filename)}}},{new:true},(err,done)=>{
       if(err) return console.log(err);
       res.status(200).json(done);
     })
-  // })
 });
 
 

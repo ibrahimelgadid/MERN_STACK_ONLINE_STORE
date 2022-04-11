@@ -69,7 +69,7 @@ function AllProducts() {
           </table>
         )
         :<div className='text-center'>
-        <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no brands</strong>;
+        <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no products</strong>
       </div>
     )
 

@@ -42,7 +42,7 @@ function AdminArea() {
             <div className="col-lg-3 col-6">
               <div className="small-box bg-info">
                 <div className="inner">
-                  <h3>{products?.length || 0}</h3>
+                  <h3>{products?.length ||0}</h3>
 
                   <p>Products</p>
                 </div>
@@ -53,7 +53,7 @@ function AdminArea() {
               </div>
             </div>
             <div className="col-lg-3 col-6 " >
-              <div className="small-box bg-primary" >
+              <div className="small-box bg-dark" >
                 <div className="inner">
                   <h3>{orders?.length}</h3>
 
