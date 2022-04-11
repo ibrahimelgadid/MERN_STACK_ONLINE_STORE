@@ -7,37 +7,37 @@ import isEmpty from "../../utilis/isEmpty";
 
 function Cart() {
 
-  let navigate = useNavigate()
-  let {cart,selectedProduct, loading} = useSelector(state=>state.cartReducer)
+  const navigate = useNavigate()
+  const {cart,selectedProduct, loading} = useSelector(state=>state.cartReducer)
 
-  let dispatch = useDispatch()
-  let GetCartElements = bindActionCreators(getCartElements, dispatch);
-  let CartProductInc = bindActionCreators(cartProductInc, dispatch);
-  let CartProductDec = bindActionCreators(cartProductDec, dispatch);
-  let DeleteProductFromCart = bindActionCreators(deleteProductFromCart, dispatch);
-  let ClearCart = bindActionCreators(clearCart, dispatch);
+  const dispatch = useDispatch()
+  const GetCartElements = bindActionCreators(getCartElements, dispatch);
+  const CartProductInc = bindActionCreators(cartProductInc, dispatch);
+  const CartProductDec = bindActionCreators(cartProductDec, dispatch);
+  const DeleteProductFromCart = bindActionCreators(deleteProductFromCart, dispatch);
+  const ClearCart = bindActionCreators(clearCart, dispatch);
 
   
 
-  let handleDelete=(index)=>{
-    let data = {index}
+  const handleDelete=(index)=>{
+    const data = {index}
     DeleteProductFromCart(data)
   }
 
 
-  let handleClearCart=()=>{
+  const handleClearCart=()=>{
     ClearCart()
   }
 
-  let handlePlus = (index,price)=>{
-    let productData={
+  const handlePlus = (index,price)=>{
+    const productData={
       index,price
     }
     CartProductInc(productData)
   }
 
-  let handleMinus = (index,price)=>{
-    let productData={
+  const handleMinus = (index,price)=>{
+    const productData={
       index,price
     }
     CartProductDec(productData)

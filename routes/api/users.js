@@ -124,7 +124,7 @@ router.get('/:user_id',passport.authenticate('jwt',{session:false}),
         if(req.user.role !=='user'){
             User.findOne({_id:req.params.user_id})
                 .then(user=>res.status(200).json(user))
-                .catch(err=> console.log(err))
+                .catch(err=> res.sendStatus(404))
         }else{
             let errors = {};
         errors.userNotAdmin = "You are not have admin privilleges";
@@ -238,7 +238,7 @@ router.put('/edit', passport.authenticate('jwt', {session:false}),(req,res)=>{
                 return res.status(400).json(errors)
             }
         }
-        let userEditData = {
+        const userEditData = {
             name:req.body.name,
             email:req.body.email,
             address:req.body.address,

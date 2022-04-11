@@ -21,6 +21,23 @@ export const getOrders = () => (dispatch) => {
     });
 };
 
+export const getOrdersForAdmins = () => (dispatch) => {
+  axios
+    .get("orders/admins")
+    .then((res) => {
+      dispatch({
+        type:GET_ORDERS,
+        payload:res.data
+      })
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ORDERS,
+        payload:[],
+      });
+    });
+};
+
 
 export const getOrder = (order_id) => (dispatch) => {
   axios

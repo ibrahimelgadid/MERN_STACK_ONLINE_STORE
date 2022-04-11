@@ -13,11 +13,11 @@ import {imgServer} from "../../utilis/imageServer";
 
 function User() {
 
-  let {user} = useSelector(state=>state.membersReducer)
-  let dispatch = useDispatch();
-  let GetUser = bindActionCreators(getUser,dispatch);
-  let {user_id} = useParams();
-  let navigate = useNavigate()
+  const {user, loading} = useSelector(state=>state.membersReducer)
+  const dispatch = useDispatch();
+  const GetUser = bindActionCreators(getUser,dispatch);
+  const {user_id} = useParams();
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -32,10 +32,10 @@ function User() {
           onClick={()=>navigate(-1)}
           className='btn btn-dark d-block mb-2'>back</button>
           {
-          isEmpty(user)
+          isEmpty(user) && loading
           ?
-          (<Spinner/>)
-          :
+          <Spinner animation="border" role="status" />
+          :!isEmpty(user)?
           (<div className="card shadow">
             <div className="card-header text-center">
               <h3>{user.name}</h3>
@@ -70,7 +70,7 @@ function User() {
               }
             </div>
           </div>
-          )
+          ):<strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no user for this id</strong>
           }
 
         </div>

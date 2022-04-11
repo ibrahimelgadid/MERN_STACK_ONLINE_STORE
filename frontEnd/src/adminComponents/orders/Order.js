@@ -15,7 +15,7 @@ function Order() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const {order} = useSelector(state=>state.ordersReducer)
+  const {order, loading} = useSelector(state=>state.ordersReducer)
   const GetOrder = bindActionCreators(getOrder,useDispatch());
   const EditOrder = bindActionCreators(editOrder,useDispatch());
   const {orderId} = useParams();
@@ -40,10 +40,10 @@ function Order() {
           onClick={()=>navigate(-1)}
           className='btn btn-dark d-block mb-2'>back</button>
           {
-          isEmpty(order)
+          isEmpty(order) && loading
           ?
-          (<Spinner/>)
-          :
+          (<Spinner animation="border" role="status" />)
+          :!isEmpty(order)?
           (<div className="card shadow">
             <div className="card-header text-center">
               <h3>{order.orderOwner.name}'s Orders</h3>
@@ -121,8 +121,12 @@ function Order() {
             </Row>
             </div>
           </div>
-          )
-          }
+          ):(
+            <strong className="text-danger">
+            {" "}
+            <i className="fas fa-exclamation-circle"></i> There is no order for this id
+          </strong>
+          )}
 
         </div>
       </div>

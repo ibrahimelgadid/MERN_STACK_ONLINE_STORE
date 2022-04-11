@@ -49,14 +49,26 @@ router.post('/', passport.authenticate('jwt', {session:false}),(req, res) => {
 
 
 //---------------------------------------------|
-//              GET ALL ORDERS                 |
+//         GET ALL ORDERS fOR ADMIN            |
+//---------------------------------------------|
+router.get('/admins', passport.authenticate('jwt', {session:false}),(req, res) => {
+  Order.find()
+  .populate('orderOwner', 'name')
+  .then(orders=>{
+    return res.status(200).json(orders)
+  }).catch(err=>sendStatus(404))
+});
+
+
+//---------------------------------------------|
+//          GET ALL ORDERS fOR USER            |
 //---------------------------------------------|
 router.get('/', passport.authenticate('jwt', {session:false}),(req, res) => {
   Order.find({orderOwner:req.user.id})
   .populate('orderOwner', 'name')
   .then(orders=>{
     return res.status(200).json(orders)
-  }).catch(err=>console.log(err))
+  }).catch(err=>sendStatus(404))
 });
 
 
@@ -68,7 +80,7 @@ router.get('/:orderId', passport.authenticate('jwt', {session:false}),(req, res)
   .populate('orderOwner', 'name')
   .then(order=>{
     return res.status(200).json(order)
-  }).catch(err=>console.log(err))
+  }).catch(err=>res.sendStatus(404))
 });
 
 
@@ -77,7 +89,6 @@ router.get('/:orderId', passport.authenticate('jwt', {session:false}),(req, res)
 //               GET ORDER BY ID               |
 //---------------------------------------------|
 router.put('/', passport.authenticate('jwt', {session:false}),(req, res) => {
- console.log( req.body);
   Order.findOneAndUpdate(
     {_id:req.body.orderId},
     {$set:{status:req.body.status}},

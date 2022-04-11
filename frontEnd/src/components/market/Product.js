@@ -13,14 +13,12 @@ import {imgServer} from "../../utilis/imageServer";
 
 function Product() {
 
-  let {product} = useSelector(state=>state.productsReducer)
-  let dispatch = useDispatch();
-  let GetProduct = bindActionCreators(getProduct,dispatch);
-  let {productID} = useParams();
-  let navigate = useNavigate()
+  const {product, loading} = useSelector(state=>state.productsReducer)
+  const dispatch = useDispatch();
+  const GetProduct = bindActionCreators(getProduct,dispatch);
+  const {productID} = useParams();
+  const navigate = useNavigate()
   
-  console.log(productID);
-
   useEffect(() => {
     GetProduct(productID)
     // eslint-disable-next-line
@@ -34,10 +32,13 @@ function Product() {
           onClick={()=>navigate(-1)}
           className='btn btn-sm btn-outline-dark d-block mb-2'><i className='fas fa-arrow-circle-left'></i> back</button>
           {
-          isEmpty(product)
+          loading && isEmpty(product)
           ?
-          (<Spinner/>)
+          <div className="spinner-border my-4" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
           :
+          !isEmpty(product)?
           (<div className="card shadow">
             <div className="card-header text-center">
               <h3>{product.name}</h3>
@@ -84,6 +85,12 @@ function Product() {
               </div>
             </div>
           </div>
+          ):(
+            <strong className="text-danger">
+            {" "}
+            <i className="fas fa-exclamation-circle"></i> There is no
+            product for this id
+          </strong>
           )
           }
 

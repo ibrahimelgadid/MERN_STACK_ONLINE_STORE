@@ -18,7 +18,7 @@ import classNames from "classnames";
 import ModalSearch from "./ModalSearch";
 import Sort from "./Sort";
 import { Pagination } from "react-bootstrap";
-import Carousel from "./Carousel";
+// import Carousel from "./Carousel";
 
 function Market() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -55,17 +55,12 @@ function Market() {
   const { categoryHandle } = useParams();
   const { brandHandle } = useParams();
 
-
-
   useEffect(() => {
     setCurrentPage(page);
     // eslint-disable-next-line
   }, [page]);
 
-
   const pages = new Array(productsCount).fill(null).map((p, i) => p);
-  
-  
 
   useEffect(() => {
     if (isEmpty(brandHandle) && isEmpty(categoryHandle)) {
@@ -100,8 +95,6 @@ function Market() {
     // eslint-disable-next-line
   }, [search]);
 
-
-  
   return (
     <div className=" market">
       {/* <Carousel/> */}
@@ -205,21 +198,18 @@ function Market() {
                       />
                     )
                   )}
-                  
 
-                    <Pagination size="sm">
-                      {pages.map((p, i) => (
-                        <Pagination.Item
-                          active={page === String(i)}
-                          key={i}
-                          onClick={() => setSearchParams({ page: i })}
-                        >
-                          {i + 1}
-                        </Pagination.Item>
-                      ))}
-                    </Pagination>
-                  
-                  
+                  <Pagination size="sm">
+                    {pages.map((p, i) => (
+                      <Pagination.Item
+                        active={page === String(i)}
+                        key={i}
+                        onClick={() => setSearchParams({ page: i })}
+                      >
+                        {i + 1}
+                      </Pagination.Item>
+                    ))}
+                  </Pagination>
                 </div>
               ) : (
                 <strong className="text-danger">

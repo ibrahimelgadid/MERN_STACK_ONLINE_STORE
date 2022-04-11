@@ -2,7 +2,8 @@ import { DELETE_USER, GET_USER, GET_USERS } from "../actions/actionsTypes";
 
 let initialState = {
   users:[],
-  user:{}
+  user:{},
+  loading:true
 }
 
 
@@ -11,7 +12,8 @@ const membersReducer = (state=initialState, action)=>{
     case GET_USERS:
       return{
         ...state,
-        users:action.payload
+        users:action.payload,
+        loading:false
       }
       
 
@@ -26,7 +28,8 @@ const membersReducer = (state=initialState, action)=>{
     case GET_USER:
       return{
         ...state,
-        user:action.payload
+        user:action.payload,
+        loading:false
       }
       
 

@@ -90,12 +90,6 @@ const uploadProImage = multer({
 
 
 
-//---------------------------------------------|
-//             POST TEST PRODUCT               |
-//---------------------------------------------|
-router.get('/test', (req, res) => res.json({ msg: 'Products Works' }));
-
-
 
 //---------------------------------------------|
 //             GET ALL PRODUCTS                |
@@ -149,7 +143,7 @@ router.get('/:pro_id',(req, res) => {
   Product.findOne({_id:req.params.pro_id})
     .populate('publisher', ['name'])
     .then(pro=>res.status(200).json(pro))
-    .catch(err=>console.log(err))
+    .catch(err=>res.sendStatus(404))
 });
 
 
