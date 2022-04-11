@@ -34,9 +34,7 @@ function Product() {
           {
           loading && isEmpty(product)
           ?
-          <div className="spinner-border my-4" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+          <div className='text-center'><Spinner animation="border" role="status" /></div>
           :
           !isEmpty(product)?
           (<div className="card shadow">
@@ -86,11 +84,9 @@ function Product() {
             </div>
           </div>
           ):(
-            <strong className="text-danger">
-            {" "}
-            <i className="fas fa-exclamation-circle"></i> There is no
-            product for this id
-          </strong>
+            <div className="text-center">
+            <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no product for this id</strong>
+          </div>
           )
           }
 

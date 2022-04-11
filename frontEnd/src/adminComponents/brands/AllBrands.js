@@ -20,20 +20,20 @@ function AllBrands() {
   const handleCloseEdit = () => setShowEdit(false);
   const handleShowEdit = () => setShowEdit(true);
 
-  let {brands} = useSelector(state=>state.brandsReducer)
-  let dispatch = useDispatch();
-  let Getbrands = bindActionCreators(getBrands, dispatch)
-  let DeleteBrand = bindActionCreators( deleteBrand, dispatch)
-  let navigate = useNavigate()
+ const {brands, loading} = useSelector(state=>state.brandsReducer)
+ const dispatch = useDispatch();
+ const Getbrands = bindActionCreators(getBrands, dispatch)
+ const DeleteBrand = bindActionCreators( deleteBrand, dispatch)
+ const navigate = useNavigate()
 
 
 
-  let handleDelete = (id)=>{
+ const handleDelete = (id)=>{
     DeleteBrand(id)
   }
 
 
-  let brandsData = !isEmpty(brands)?(
+ const brandsData = !isEmpty(brands)?(
     <table className="table table-striped table-bordered my-4">
           <thead>
             <tr>
@@ -64,7 +64,10 @@ function AllBrands() {
             ))}
           </tbody>
         </table>
-  ):<Spinner animation="border" role="status" />;
+  )
+  :<div className='text-center'>
+    <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no brands</strong>;
+  </div>
 
 
   useEffect(() => {
@@ -100,7 +103,7 @@ function AllBrands() {
           </Modal.Body>
         </Modal>
 
-        {brandsData}
+        {!loading?brandsData:<div className='text-center'><Spinner animation="border" role="status" /></div>}
     </div>
   )
 }

@@ -20,20 +20,20 @@ function AllCategories() {
   const handleCloseEdit = () => setShowEdit(false);
   const handleShowEdit = () => setShowEdit(true);
 
-  let {categories} = useSelector(state=>state.categoriesReducer)
-  let dispatch = useDispatch();
-  let GetCategories = bindActionCreators(getCategories, dispatch)
-  let DeleteCategory = bindActionCreators( deleteCategory, dispatch)
-  let navigate = useNavigate()
+  const {categories, loading} = useSelector(state=>state.categoriesReducer)
+  const dispatch = useDispatch();
+  const GetCategories = bindActionCreators(getCategories, dispatch)
+  const DeleteCategory = bindActionCreators( deleteCategory, dispatch)
+  const navigate = useNavigate()
 
 
 
-  let handleDelete = (id)=>{
+  const handleDelete = (id)=>{
     DeleteCategory(id)
   }
 
 
-  let categoriesData = !isEmpty(categories)?(
+  const categoriesData = !isEmpty(categories)?(
     <table className="table table-striped table-bordered my-4">
           <thead>
             <tr>
@@ -64,7 +64,10 @@ function AllCategories() {
             ))}
           </tbody>
         </table>
-  ):<Spinner animation="border" role="status" />;
+  )
+  :<div className='text-center'>
+    <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no categories</strong>;
+    </div>
 
 
   useEffect(() => {
@@ -100,7 +103,7 @@ function AllCategories() {
           </Modal.Body>
         </Modal>
 
-        {categoriesData}
+        {!loading?categoriesData:<div className='text-center'><Spinner animation="border" role="status" /></div>}
     </div>
   )
 }

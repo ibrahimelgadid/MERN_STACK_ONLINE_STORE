@@ -5,6 +5,7 @@ import { deleteProduct, getProductsForAdmins } from '../../ReduxCycle/actions/pr
 import isEmpty from '../../utilis/isEmpty';
 import { Link, useNavigate } from "react-router-dom";
 import {imgServer} from "../../utilis/imageServer";
+import { Spinner } from 'react-bootstrap';
 
 function AllProducts() {
 
@@ -22,9 +23,7 @@ function AllProducts() {
 
   let productsData =isEmpty(products)&& loading?
     (
-      <div className="spinner-border my-4" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
+      <div className='text-center'><Spinner animation="border" role="status" /></div>
     ):
     (
       products.length>0
@@ -68,7 +67,10 @@ function AllProducts() {
               ))}
             </tbody>
           </table>
-        ):(<strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no products</strong>)
+        )
+        :<div className='text-center'>
+        <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no brands</strong>;
+      </div>
     )
 
 

@@ -9,6 +9,7 @@ import isEmpty from "../../utilis/isEmpty";
 import Brands from './Brands';
 import Categories from './Categories';
 import {imgServer} from "../../utilis/imageServer";
+import { Spinner } from 'react-bootstrap';
 
 
 function ProductByCategory() {
@@ -65,9 +66,7 @@ function ProductByCategory() {
         </div>
         <div className="col-sm-8 col-md-9 ">
           {isEmpty(products) && loading?(
-            <div className="spinner-border my-4" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+            <div className='text-center'><Spinner animation="border" role="status" /></div>
           ):(
             <div className="row">
               <div className="col-12 my-2">
@@ -97,7 +96,9 @@ function ProductByCategory() {
                     </div>
                   </div>
                 </div>
-                )):(<strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no products</strong>)}
+                )):(<div className="text-center">
+                <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no products</strong>
+              </div>)}
               </div>
           )}
         </div>

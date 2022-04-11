@@ -12,17 +12,17 @@ function AddBrand({handleClose}) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors]  = useState('');
-  let [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
 
-  let errorsFromState = useSelector(state=> state.errorsReducer);
+  const errorsFromState = useSelector(state=> state.errorsReducer);
   const dispatch = useDispatch()
-  let AddNewBrand = bindActionCreators(addNewBrand,dispatch)
+  const AddNewBrand = bindActionCreators(addNewBrand,dispatch)
 
 
   const handleSumit = (e)=>{
     e.preventDefault();
-    let brandData = {
+    const brandData = {
       name,description
     }
     AddNewBrand(brandData);

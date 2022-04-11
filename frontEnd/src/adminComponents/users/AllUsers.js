@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {imgServer} from "../../utilis/imageServer";
 
 function AllUsers() {
-  const { users } = useSelector((state) => state.membersReducer);
+  const { users, loading } = useSelector((state) => state.membersReducer);
   const dispatch = useDispatch();
   const GetUsers = bindActionCreators(getUsers, dispatch);
   const DeleteUser = bindActionCreators(deleteUser, dispatch);
@@ -83,7 +83,7 @@ function AllUsers() {
       >
         <i className="fas fa-arrow-circle-left"></i> back
       </div>
-      {usersData}
+      {!loading?usersData:<div className="text-center"><Spinner animation="border" role="status" /></div>}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import { addNewPost, getPosts } from "../../ReduxCycle/actions/postsActions";
 import isEmpty from '../../utilis/isEmpty';
 import classnames from "classnames";
+import { Spinner } from "react-bootstrap";
 
 
 
@@ -34,10 +35,6 @@ function Forum() {
     if(isMounted){
 
       setErrors(errorsFromState)
-      
-      // if(!isEmpty(errorsFromState)){
-      //   Object.values(errors).map(value=>toast.warn(value, {theme:'colored'}))
-      // }
 
     }else{setIsMounted(true)}
     // eslint-disable-next-line
@@ -71,16 +68,17 @@ function Forum() {
           </form>
 
           {isEmpty(posts)&& loading?(
-            <div className="spinner-border my-4" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+            <div className='text-center'><Spinner animation="border" role="status" /></div>
           ):(
             posts.length>0?(
               posts.map(post=>(
                 <Posts key={post._id} post={post}/>
               ))
             ):(
-              <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no posts</strong>
+              <div className="text-center">
+                <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no posts</strong>
+              </div>
+              
             )
           )}
         </div>

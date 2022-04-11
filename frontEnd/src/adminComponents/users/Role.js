@@ -5,13 +5,13 @@ import { bindActionCreators } from 'redux';
 import { editUserRole, getUser } from '../../ReduxCycle/actions/membersActions';
 
 function Role() {
-  let [role, setRole] = useState('');
-  let {user} = useSelector(state=>state.membersReducer);
-  let dispatch = useDispatch();
-  let GetUser = bindActionCreators(getUser, dispatch);
-  let EditUserRole = bindActionCreators(editUserRole, dispatch)
-  let {user_id} = useParams();
-  let navigate = useNavigate();
+  const [role, setRole] = useState('');
+  const {user} = useSelector(state=>state.membersReducer);
+  const dispatch = useDispatch();
+  const GetUser = bindActionCreators(getUser, dispatch);
+  const EditUserRole = bindActionCreators(editUserRole, dispatch)
+  const {user_id} = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     GetUser(user_id)
@@ -24,9 +24,9 @@ function Role() {
   }, [])
 
 
-  let handleChangeRole = (e)=>{
+  const handleChangeRole = (e)=>{
     e.preventDefault();
-    let roleData = {role}
+    const roleData = {role}
     EditUserRole(roleData,user_id,navigate)
   }
 

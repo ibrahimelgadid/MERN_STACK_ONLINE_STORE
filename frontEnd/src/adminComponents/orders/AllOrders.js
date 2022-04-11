@@ -93,12 +93,11 @@ function AllOrders() {
       </tbody>
     </table>
   ) : loading ? (
-    <Spinner animation="border" role="status" />
+    <div className='text-center'><Spinner animation="border" role="status" /></div>
   ) : (
-    <strong className="text-danger">
-      {" "}
-      <i className="fas fa-exclamation-circle"></i> There is no orders
-    </strong>
+    <div className='text-center'>
+    <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no orders</strong>;
+  </div>
   );
   return (
     <div className="brands container mt-4">

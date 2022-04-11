@@ -106,7 +106,7 @@ export default function AdminSideBar() {
                   <p>
                     Products
                     <i className="fas fa-angle-left right"></i>
-                    <span className="badge badge-info right">{products.length}</span>
+                    <span className="badge badge-info right">{products?.length}</span>
                   </p>
                 </Link>
                 <ul className="nav nav-treeview">

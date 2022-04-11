@@ -18,30 +18,30 @@ import { useDispatch, useSelector } from "react-redux";
 
 function EditProfile() {
 
-  let [name, setName] = useState('');
-  let [email, setEmail] = useState('');
-  let [address, setAddress] = useState('');
-  let [youtube, setYoutube] = useState('');
-  let [facebook, setFacebook] = useState('');
-  let [instagram, setInstagram] = useState('');
-  let [twitter, setTwitter] = useState('');
-  let [errors, setErrors] = useState({});
-  let [isMounted, setIsMounted] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [youtube, setYoutube] = useState('');
+  const [facebook, setFacebook] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [twitter, setTwitter] = useState('');
+  const [errors, setErrors] = useState({});
+  const [isMounted, setIsMounted] = useState(false);
 
-  let dispatch = useDispatch()
-  let navigate = useNavigate()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  let GetProfile = bindActionCreators(getProfile, dispatch);
-  let EditProfile = bindActionCreators(editProfile, dispatch);
-  let errorsFromState = useSelector(state=> state.errorsReducer);
-  let { user} = useSelector(state=> state.authReducer);
+  const GetProfile = bindActionCreators(getProfile, dispatch);
+  const EditProfile = bindActionCreators(editProfile, dispatch);
+  const errorsFromState = useSelector(state=> state.errorsReducer);
+  const { user} = useSelector(state=> state.authReducer);
 
 
 
 
   const handleOnSubmit = (e)=>{
     e.preventDefault();
-    let editProfileData = {
+    const editProfileData = {
       name,email,address,youtube,
       facebook,instagram,twitter
     }
@@ -73,11 +73,6 @@ function EditProfile() {
     if(isMounted){
 
       setErrors(errorsFromState)
-      
-      if(!isEmpty(errorsFromState)){
-        Object.values(errors).map(value=>toast.warn(value, {theme:'colored'}))
-      }
-
     }else{setIsMounted(true)}
     // eslint-disable-next-line
   }, [errors, errorsFromState]);
@@ -104,6 +99,7 @@ function EditProfile() {
                       className={classNames('', {'is-invalid':errors.name})}
                       onChange={(e)=>setName(e.target.value)}
                       />
+                       <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="input-group mb-3" controlId="formBasicEmail">
@@ -114,6 +110,7 @@ function EditProfile() {
                       className={classNames('', {'is-invalid':errors.email})}
                       onChange={(e)=>setEmail(e.target.value)}
                       />
+                       <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="input-group mb-3" controlId="formBasicPassword">
@@ -125,6 +122,7 @@ function EditProfile() {
                       className={classNames('', {'is-invalid':errors.address})}
                       onChange={(e)=>setAddress(e.target.value)}
                       />
+                       <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="input-group mb-3" controlId="formBasicConfirm">
@@ -136,6 +134,7 @@ function EditProfile() {
                       className={classNames('', {'is-invalid':errors.youtube})}
                       onChange={(e)=>setYoutube(e.target.value)}
                       />
+                       <Form.Control.Feedback type="invalid">{errors.youtube}</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="input-group mb-3" controlId="formBasicConfirm">
@@ -147,6 +146,7 @@ function EditProfile() {
                       className={classNames('', {'is-invalid':errors.facebook})}
                       onChange={(e)=>setFacebook(e.target.value)}
                       />
+                       <Form.Control.Feedback type="invalid">{errors.facebook}</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="input-group mb-3" controlId="formBasicConfirm">
@@ -158,6 +158,7 @@ function EditProfile() {
                       className={classNames('', {'is-invalid':errors.twitter})}
                       onChange={(e)=>setTwitter(e.target.value)}
                       />
+                       <Form.Control.Feedback type="invalid">{errors.twitter}</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="input-group mb-3" controlId="formBasicConfirm">
@@ -169,6 +170,7 @@ function EditProfile() {
                       className={classNames('', {'is-invalid':errors.instagram})}
                       onChange={(e)=>setInstagram(e.target.value)}
                       />
+                       <Form.Control.Feedback type="invalid">{errors.instagram}</Form.Control.Feedback>
                   </Form.Group>
 
                   <Button className='col-12' variant="primary" type="submit">

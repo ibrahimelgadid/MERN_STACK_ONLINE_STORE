@@ -17,7 +17,7 @@ import LinesProduct from "./LinesProduct";
 import classNames from "classnames";
 import ModalSearch from "./ModalSearch";
 import Sort from "./Sort";
-import { Pagination } from "react-bootstrap";
+import { Pagination, Spinner } from "react-bootstrap";
 // import Carousel from "./Carousel";
 
 function Market() {
@@ -101,9 +101,7 @@ function Market() {
       <div className="row mx-2">
         <div className="col-12 ">
           {isEmpty(products) && loading ? (
-            <div className="spinner-border my-4" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+            <div className='text-center'><Spinner animation="border" role="status" /></div>
           ) : (
             <div className="my-4">
               <div className="row">
@@ -212,11 +210,9 @@ function Market() {
                   </Pagination>
                 </div>
               ) : (
-                <strong className="text-danger">
-                  {" "}
-                  <i className="fas fa-exclamation-circle"></i> There is no
-                  products
-                </strong>
+                <div className="text-center">
+                <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no products</strong>
+              </div>
               )}
             </div>
           )}

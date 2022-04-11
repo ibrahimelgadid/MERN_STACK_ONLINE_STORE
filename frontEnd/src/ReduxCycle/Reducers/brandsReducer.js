@@ -2,7 +2,8 @@ import { EDIT_BRAND, GET_BRANDS, GET_BRAND, ADD_BRAND, DELETE_BRAND } from "../a
 
 let initialState = {
   brands:[],
-  brand:{}
+  brand:{},
+  loading:true
 }
 
 
@@ -12,7 +13,7 @@ const brandsReducer = (state=initialState, action)=>{
     case ADD_BRAND:
       return{
         ...state,
-        brands:[...state.brands, action.payload ]
+        brands:[...state.brands, action.payload ],
       }
 
 
@@ -29,13 +30,15 @@ const brandsReducer = (state=initialState, action)=>{
     case GET_BRANDS:
       return{
         ...state,
-        brands:action.payload
+        brands:action.payload,
+        loading:false
       }
 
     case GET_BRAND:
         return{
           ...state,
-          brand:action.payload
+          brand:action.payload,
+          loading:false
         }
 
 

@@ -150,13 +150,6 @@ function Profile() {
                   to={'/edit-profile'}
                   >Edit Profile</Link>
                 </button>
-                <button className='d-inline mr-1 btn btn-secondary'>
-                <Link 
-                  style={{textDecoration:'none'}} 
-                  className='text-light' 
-                  to={'/edit-pass'}
-                  >Edit Pass</Link>
-                </button>
                 
               </div>
             </div>

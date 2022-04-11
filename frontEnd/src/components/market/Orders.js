@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { getOrders } from '../../ReduxCycle/actions/ordersAction';
 import isEmpty from '../../utilis/isEmpty';
 import Moment from "react-moment";
+import { Spinner } from 'react-bootstrap';
 
 
 function Orders() {
@@ -18,9 +19,7 @@ function Orders() {
     <div className='orders container my-4'>
       <div className="row justify-content-center">
         {isEmpty(orders) && loading?(
-          <div className="spinner-border my-4" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+          <div className='text-center'><Spinner animation="border" role="status" /></div>
         ):(
           orders.length>0?(
             orders.map(order=>(
@@ -58,17 +57,11 @@ function Orders() {
               </div>
             ))
           ):(
-            <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no orders</strong>
+            <div className="text-center">
+                <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no posts</strong>
+              </div>
           )
         )}
-
-              {/* <i className='fas fa-exclamation-circle'></i>  */}
-
-              {/* <i className='fas fa-times-circle'></i> Cancelled */}
-
-              {/* <i className='fas fa-history'></i> Processing */}
-
-
       </div>
     </div>
     )

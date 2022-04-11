@@ -42,7 +42,7 @@ function Order() {
           {
           isEmpty(order) && loading
           ?
-          (<Spinner animation="border" role="status" />)
+          <div className='text-center'><Spinner animation="border" role="status" /></div>
           :!isEmpty(order)?
           (<div className="card shadow">
             <div className="card-header text-center">
@@ -122,10 +122,12 @@ function Order() {
             </div>
           </div>
           ):(
+          <div className='text-center'>
             <strong className="text-danger">
             {" "}
             <i className="fas fa-exclamation-circle"></i> There is no order for this id
           </strong>
+        </div>
           )}
 
         </div>
