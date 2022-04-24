@@ -49,7 +49,7 @@ function AllUsers() {
             <td>{user.email}</td>
             <td>{user.role}</td>
             <td>
-              {authUser.role === "superAdmin" ? (
+              {authUser.role === "superAdmin" && user.role !== "superAdmin" ? (
                 <>
                   <i
                     style={{ cursor: "pointer" }}

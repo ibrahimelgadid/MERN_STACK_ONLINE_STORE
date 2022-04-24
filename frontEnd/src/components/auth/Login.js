@@ -59,6 +59,13 @@ function Login() {
               </h5>
             </Card.Header>
             <Card.Body>
+              For superAdmin authority login with{" "}
+              <span className="d-block">
+                username:- <strong>admin@admin.com</strong>
+              </span>
+              <span className="d-block">
+                password:- <strong>1234</strong>
+              </span>
               <Form onSubmit={handleOnSubmit}>
                 <Form.Group
                   className="input-group mb-3"
