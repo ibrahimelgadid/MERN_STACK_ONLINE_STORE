@@ -76,13 +76,12 @@ function Cart({ cart, loading, selectedProduct, phone }) {
         ))}
       </ul>
       <div className="card-footer border-info">
-        {
-        phone.length>10 && !isNaN(phone)?(
+        {phone.length > 10 && !isNaN(phone) ? (
           <Stripe
             name="React E-commerce"
-            image="https://www.vidhub.co/assets/logos/vidhub-icon-2e5c629f64ced5598a56387d4e3d0c7c.png"
+            // image="https://www.vidhub.co/assets/logos/vidhub-icon-2e5c629f64ced5598a56387d4e3d0c7c.png"
             stripeKey="pk_test_wpsaZLzicJCvZLC0yZMd6QHf00yOyDoak5"
-            amount={cart.totalPrice}
+            amount={cart.totalPrice * 100}
             token={stripeTokenHandler}
             description={`Your total amount $${cart.totalPrice * 100}`}
             shippingAddress
@@ -92,9 +91,7 @@ function Cart({ cart, loading, selectedProduct, phone }) {
               Pay Now <strong>${cart.totalPrice}</strong>
             </button>
           </Stripe>
-        ):null
-        }
-        
+        ) : null}
       </div>
     </div>
   ) : (

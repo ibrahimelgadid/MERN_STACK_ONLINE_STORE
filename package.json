@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
+    "client": "npm run --prefix frontend start",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontEnd && npm run build --prefix frontEnd"
   },
   "engines": {
@@ -17,6 +18,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "~4.16.1",
+    "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.12",
     "morgan": "~1.9.1",

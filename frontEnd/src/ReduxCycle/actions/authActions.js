@@ -1,18 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import {
-  CLEAR_ERRORS,
-  GET_ERRORS,
-  GET_USER_EDIT,
-  SET_CURRENT_USER,
-} from "./actionsTypes";
+import { CLEAR_ERRORS, GET_ERRORS, SET_CURRENT_USER } from "./actionsTypes";
 import jwtDecode from "jwt-decode";
 import setTokenInHeaders from "../../utilis/setTokenInHeaders";
-import io from 'socket.io-client'
-import { addNewNotification } from '../../ReduxCycle/actions/notificationsActions';
-import {socketConn} from "../../utilis/socket";
-
-
+import io from "socket.io-client";
+import { addNewNotification } from "../../ReduxCycle/actions/notificationsActions";
+import { socketConn } from "../../utilis/socket";
 
 //---------------------------------------------|
 //           POST REGISTER USER                |
@@ -22,26 +15,27 @@ export const register = (registerData, navigate) => (dispatch) => {
   axios
     .post("users/register", registerData)
     .then((res) => {
-
       toast.success("You have been registered, login now", {
         theme: "colored",
       });
-      var socket = io(socketConn)
+      var socket = io(socketConn);
 
       //real-time notification
-      socket.emit('notify',{
-        data:res.data,
-        from:res.data._id,
-        type:'userRegister'
-      })
+      socket.emit("notify", {
+        data: res.data,
+        from: res.data._id,
+        type: "userRegister",
+      });
 
       //Add notification to database
       // const AddNewNotification = bindActionCreators(addNewNotification, useDispatch());
-      dispatch(addNewNotification({
-        data:res.data,
-        from:res.data._id,
-        type:'userRegister'
-      }))
+      dispatch(
+        addNewNotification({
+          data: res.data,
+          from: res.data._id,
+          type: "userRegister",
+        })
+      );
       navigate("/login");
     })
     .catch((err) => {
@@ -91,13 +85,13 @@ export const editProfile = (editProfileData, navigate) => (dispatch) => {
   axios
     .put("users/edit", editProfileData)
     .then((res) => {
-      localStorage.removeItem("token");
-      setTokenInHeaders(false);
+      localStorage.setItem("token", res.data.token);
+      navigate(-1);
       dispatch({
         type: SET_CURRENT_USER,
-        payload: {},
+        payload: jwtDecode(localStorage.token),
       });
-      toast.success("Your profile Data have been edited, loggin again", {
+      toast.success("Your profile Data have been edited", {
         theme: "colored",
       });
     })
@@ -134,24 +128,6 @@ export const changeImg = (imgData) => (dispatch) => {
     });
 };
 
-export const getProfile = () => (dispatch) => {
-  axios
-    .get("users")
-    .then((res) => {
-      dispatch({
-        type: GET_USER_EDIT,
-        payload: res.data,
-      });
-    })
-
-    .catch((err) => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data,
-      });
-    });
-};
-
 export const sendMailToResetPass =
   (data, navigate, setLoading) => (dispatch) => {
     setLoading(true);
@@ -169,22 +145,22 @@ export const sendMailToResetPass =
       });
   };
 
-
-  export const resetPass =
-  (data, navigate, token, email) => (dispatch) => {
-    axios
-      .post(`users/resetPass/${token}/${email}`, data)
-      .then((res) => {
-        navigate("/login");
-        toast.success('Your password has been changed, plesse login now',{theme:'colored'})
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response.data,
-        });
+export const resetPass = (data, navigate, token, email) => (dispatch) => {
+  axios
+    .post(`users/resetPass/${token}/${email}`, data)
+    .then((res) => {
+      navigate("/login");
+      toast.success("Your password has been changed, plesse login now", {
+        theme: "colored",
       });
-  };
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
 export const clearErrors = () => {
   return {
     type: CLEAR_ERRORS,
