@@ -71,11 +71,17 @@ function Email() {
                   onChange={(e) => setEmail(e.target.value)}
                   className={classNames({ "is-invalid": errors.email })}
                 />
-                <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  {errors.email}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Button className="col-12" variant="primary" type="submit">
-                {Loading?<Spinner animation="border" role="status" />:"Send"}
+                {Loading ? (
+                  <Spinner animation="border" role="status" />
+                ) : (
+                  "Send"
+                )}
               </Button>
             </Form>
           </Card.Body>

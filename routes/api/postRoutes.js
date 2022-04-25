@@ -90,17 +90,10 @@ router.put(
             { $set: post },
             { new: true }
           )
-          .then((done) => {
-            postModel.populate(postModel.comments, {
-              path: "user",
-              select: ["name", "avatar"],
-            });
-            postModel
-              .populate(post, {
-                path: "user",
-                select: ["name", "avatar"],
-              })
-              .then((p) => res.status(200).json(p));
+          .populate("user", "-password")
+          .populate("comments.user", "-password")
+          .then((post) => {
+            res.status(200).json(post);
           });
       } else {
         return res

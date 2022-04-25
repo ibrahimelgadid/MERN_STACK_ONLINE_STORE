@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -18,6 +18,7 @@ function AddProduct() {
   const [productImage, setProductImage] = useState("");
   const [errors, setErrors] = useState("");
   let [isMounted, setIsMounted] = useState(false);
+  const [Loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ function AddProduct() {
     productData.append("category", category);
     productData.append("brand", brand);
     productData.append("productImage", productImage);
-    AddNewProduct(productData, navigate);
+    AddNewProduct(productData, navigate, setLoading);
   };
 
   useEffect(() => {
@@ -132,7 +133,9 @@ function AddProduct() {
                     onChange={(e) => setPrice(e.target.value)}
                     className={classnames({ "is-invalid": errors.price })}
                   />
-                   <Form.Control.Feedback type="invalid">{errors.price}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.price}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group
@@ -152,7 +155,9 @@ function AddProduct() {
                       </option>
                     ))}
                   </Form.Select>
-                  <Form.Control.Feedback type="invalid">{errors.category}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.category}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group
@@ -170,11 +175,17 @@ function AddProduct() {
                       <option key={brand._id}>{brand.name}</option>
                     ))}
                   </Form.Select>
-                  <Form.Control.Feedback type="invalid">{errors.brand}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.brand}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button className="col-12" variant="primary" type="submit">
-                  Save
+                  {Loading ? (
+                    <Spinner animation="border" role="status" />
+                  ) : (
+                    "Save"
+                  )}
                 </Button>
               </Form>
             </Card.Body>

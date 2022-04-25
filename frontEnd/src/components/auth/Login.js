@@ -1,18 +1,21 @@
 import { faEnvelope, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
-import { Form, Card, Button, Row, Col } from "react-bootstrap";
+import { Form, Card, Button, Row, Col, Spinner } from "react-bootstrap";
 import classnames from "classnames";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { login } from "../../ReduxCycle/actions/authActions";
+import isEmpty from "../../utilis/isEmpty";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [isMounted, setIsMounted] = useState(false);
+  const [Loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const Login = bindActionCreators(login, useDispatch());
   const { isAuthenticated } = useSelector((state) => state.authReducer);
@@ -24,7 +27,7 @@ function Login() {
       email,
       password,
     };
-    Login(loginData);
+    Login(loginData, setLoading);
   };
 
   useEffect(() => {
@@ -104,7 +107,11 @@ function Login() {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Button className="col-12" variant="primary" type="submit">
-                  Login
+                  {Loading && isEmpty(errors) ? (
+                    <Spinner animation="border" role="status" />
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
                 <p className="my-2 text-center">
                   <Link to="/email">Are you forgot your password?</Link>

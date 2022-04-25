@@ -1,4 +1,6 @@
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { bindActionCreators } from "redux";
@@ -8,6 +10,7 @@ import isEmpty from "../../utilis/isEmpty";
 function EditPost({ postID, handleClose }) {
   const [text, setText] = useState("");
   const [errors, setErrors] = useState("");
+  const [Loading, setLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const errorsFromState = useSelector((state) => state.errorsReducer);
   const GetPost = bindActionCreators(getPost, useDispatch());
@@ -20,8 +23,7 @@ function EditPost({ postID, handleClose }) {
       text,
     };
 
-    EditPost(postData, postID);
-    handleClose(true);
+    EditPost(postData, postID, setLoading);
   };
 
   useEffect(() => {
@@ -38,11 +40,6 @@ function EditPost({ postID, handleClose }) {
   useEffect(() => {
     if (isMounted) {
       setErrors(errorsFromState);
-      if (!isEmpty(errorsFromState)) {
-        Object.values(errors).map((value) =>
-          toast.warn(value, { theme: "colored" })
-        );
-      }
     } else {
       setIsMounted(true);
     }
@@ -53,13 +50,14 @@ function EditPost({ postID, handleClose }) {
     <form onSubmit={handleSumit}>
       <div className="input-group mb-3">
         <button className="input-group-text" id="prefixId">
-          Edit
+          {Loading ? <Spinner animation="border" role="status" /> : "Edit"}
         </button>
         <textarea
-          className="form-control"
+          className={classNames("form-control", { "is-invalid": errors.text })}
           value={text}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
+        <div className="invalid-feedback">{errors.text}</div>
       </div>
     </form>
   );

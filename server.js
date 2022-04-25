@@ -37,22 +37,6 @@ mongoose
 app.use(passport.initialize());
 require("./config/passport")(passport);
 
-////////////////////////////////////
-
-function nbYear(p0, percent, aug, p) {
-  let years = 0;
-  while (p > p0) {
-    p0 = p0 + p0 * (percent / 100) + aug;
-    years += 1;
-  }
-  return years;
-}
-console.log(nbYear(1000, 2, 50, 1200));
-console.log(nbYear(1500000, 2.5, 10000, 2000000));
-console.log(nbYear(1500000, 0.25, 1000, 2000000));
-
-/////////////
-
 //---------------------------------------------|
 //             Display middlewares             |
 //---------------------------------------------|

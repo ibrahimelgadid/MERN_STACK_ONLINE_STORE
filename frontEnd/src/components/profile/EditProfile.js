@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Card, Button, Row, Col } from "react-bootstrap";
+import { Form, Card, Button, Row, Col, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -31,6 +31,7 @@ function EditProfile() {
   const [twitter, setTwitter] = useState("");
   const [errors, setErrors] = useState({});
   const [isMounted, setIsMounted] = useState(false);
+  const [Loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ function EditProfile() {
       instagram,
       twitter,
     };
-    EditProfile(editProfileData, navigate);
+    EditProfile(editProfileData, navigate, setLoading);
   };
 
   useEffect(() => {
@@ -236,7 +237,11 @@ function EditProfile() {
                 </Form.Group>
 
                 <Button className="col-12" variant="primary" type="submit">
-                  Edit Profile
+                  {Loading ? (
+                    <Spinner animation="border" role="status" />
+                  ) : (
+                    "Edit Profile"
+                  )}
                 </Button>
               </Form>
             </Card.Body>

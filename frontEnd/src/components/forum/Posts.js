@@ -8,15 +8,21 @@ import {
   likePost,
   unLikePost,
 } from "../../ReduxCycle/actions/postsActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditPost from "./EditPost";
-import { Modal } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 import { imgServer } from "../../utilis/imageServer";
+import classNames from "classnames";
 
 function Posts({ post }) {
   const [postID, setPostID] = useState("");
   const [comment, setComment] = useState("");
   const [show, setShow] = useState(false);
+  const [Loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
+
+  const errorsFromState = useSelector((state) => state.errorsReducer);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -25,6 +31,15 @@ function Posts({ post }) {
   const UnLikePost = bindActionCreators(unLikePost, useDispatch());
   const AddNewComment = bindActionCreators(addNewComment, useDispatch());
   const { user } = useSelector((state) => state.authReducer);
+
+  useEffect(() => {
+    if (isMounted) {
+      setErrors(errorsFromState);
+    } else {
+      setIsMounted(true);
+    }
+    // eslint-disable-next-line
+  }, [errors, errorsFromState]);
 
   const handleLike = (id) => {
     LikePost(id);
@@ -39,7 +54,7 @@ function Posts({ post }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const commentData = { comment };
-    AddNewComment(commentData, post._id);
+    AddNewComment(commentData, post._id, setLoading);
     setComment("");
     // console.log(commentData, post._id);
   };
@@ -68,19 +83,19 @@ function Posts({ post }) {
             ></i>
             <i
               style={{ cursor: "pointer" }}
-              onClick={() => {
+              onClick={(e) => {
                 setPostID(post._id);
                 handleShow();
               }}
               className="fas fa-edit text-primary"
             ></i>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} backdrop="static">
               <Modal.Header closeButton>
                 <Modal.Title>Edit post</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <EditPost postID={postID} handleClose={handleClose} />
+                <EditPost postID={postID} />
               </Modal.Body>
             </Modal>
           </span>
@@ -121,15 +136,22 @@ function Posts({ post }) {
         <form onSubmit={handleSubmit}>
           <div className="input-group mb-3">
             <button className="input-group-text" id="prefixId">
-              Comment
+              {Loading ? (
+                <Spinner animation="border" role="status" />
+              ) : (
+                "Comment"
+              )}
             </button>
             <textarea
-              className="form-control"
+              className={classNames("form-control", {
+                "is-invalid": errors.comment,
+              })}
               placeholder="Leave comment"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             ></textarea>
           </div>
+          <p className="text-danger">{errors.comment}</p>
         </form>
         {post.comments.map((comment) => (
           <Comments key={comment._id} comment={comment} postID={post._id} />

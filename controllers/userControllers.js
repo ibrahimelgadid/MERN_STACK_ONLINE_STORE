@@ -8,6 +8,11 @@ const loginValidators = require("../validation/loginValidators");
 const userValidators = require("../validation/userValidators");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
+const fs = require("fs");
+const nodemailer = require("nodemailer");
+const tokenModel = require("../models/tokenModel");
+const resetpassValidators = require("../validation/resetpassValidators");
+const resetPassEmailValidators = require("../validation/resetPassEmailValidators");
 
 //---------------------------------------------|
 //           POST REGISTER
@@ -195,6 +200,104 @@ const editUserProfile = asyncHandler(async (req, res) => {
 });
 
 //---------------------------------------------|
+//           CHANGE PROFILE IMAGE
+//---------------------------------------------|
+const changeImg = asyncHandler(async (req, res) => {
+  if (req.file) {
+    if (req.body.oldImg != "noimage.png") {
+      fs.unlink("public/userAvatar/" + req.body.oldImg, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    }
+    const updateImg = {
+      avatar: req.file.filename,
+    };
+    const updateImage = await userModel.findOneAndUpdate(
+      { _id: req.user.id },
+      { $set: updateImg },
+      { new: true }
+    );
+    if (updateImage) {
+      res.status(200).json({
+        success: true,
+        token: `Bearer ${generateToken(
+          updateImage.id,
+          updateImage.name,
+          updateImage.email,
+          updateImage.avatar,
+          updateImage.role,
+          updateImage.social
+        )}`,
+      });
+    }
+  }
+});
+
+const sendEmailForResetPass = asyncHandler(async (req, res) => {
+  const { isValid, errors } = resetPassEmailValidators(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const token = `${Math.random(Date.now() * 580585)}`;
+  const transporter = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 587, //25 2525 587 465
+    auth: {
+      user: "7343e6cf3ef96c",
+      pass: "f1c870dffc07e5",
+    },
+  });
+  const mailOptions = {
+    from: "gadelgadid@gmail.com",
+    to: req.body.email,
+    subject: "Reset password",
+    html: `
+            <h3>Follow this link to reset</h3>
+            <a href="http://localhost:3000/reset-password/${token}/${req.body.email}">Reset your password </a>`,
+  };
+
+  const info = await transporter.sendMail(mailOptions);
+
+  if (info) {
+    const newTokenModel = new tokenModel({ token });
+    const tokenRes = await newTokenModel.save();
+    if (tokenRes) {
+      console.log(info);
+      res.status(200).json(tokenRes);
+    }
+  } else {
+    res.status(400).json("There's an error");
+  }
+});
+
+const resetPass = asyncHandler(async (req, res) => {
+  const { isValid, errors } = resetpassValidators(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const existsEmail = await userModel.findOne({ email: req.params.email });
+  if (existsEmail) {
+    const token = await tokenModel.findOne({ token: req.params.token });
+    if (token) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      const updatedUser = await userModel.updateOne(
+        { email: req.params.email },
+        { $set: { password: hashedPassword } }
+      );
+      if (updatedUser) {
+        res.status(200).json("done");
+      }
+    }
+  }
+});
+//---------------------------------------------|
 //           generate token functionality
 //---------------------------------------------|
 const generateToken = (id, name, email, avatar, role, social) => {
@@ -213,6 +316,9 @@ module.exports = {
   getUserById,
   editUserRole,
   editUserProfile,
+  sendEmailForResetPass,
+  resetPass,
+  changeImg,
   deleteUser,
   register,
   login,

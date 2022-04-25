@@ -51,9 +51,7 @@ function Profile() {
       setErrors(errorsFromState);
 
       if (!isEmpty(errorsFromState)) {
-        Object.values(errors).map((value) =>
-          toast.warn(value, { theme: "colored" })
-        );
+        toast.warn(Object.values(errors).map((value) => value));
       }
     } else {
       setIsMounted(true);
@@ -116,6 +114,7 @@ function Profile() {
                     id="upload"
                     className="d-none"
                     value={"uplaod"}
+                    accept="image/*"
                   />
                   <label
                     className={"text-success " + blockUpload}
