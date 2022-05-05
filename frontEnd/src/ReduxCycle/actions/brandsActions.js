@@ -21,7 +21,7 @@ export const addNewBrand = (brandData, setLoading) => (dispatch) => {
         payload: res.data,
       });
       setLoading(false);
-      toast.success("New brand has been added", { theme: "colored" });
+      toast.success("New brand has been added");
     })
 
     .catch((err) => {
@@ -44,7 +44,7 @@ export const editBrand = (brandData, id, setLoading) => (dispatch) => {
         payload: { id: id, data: res.data },
       });
       setLoading(false);
-      toast.success("brand has been edited", { theme: "colored" });
+      toast.success("brand has been edited");
     })
     .catch((err) => {
       setLoading(false);
@@ -95,7 +95,7 @@ export const deleteBrand = (brand_id) => (dispatch) => {
   axios
     .delete("brands/" + brand_id)
     .then((res) => {
-      toast.success("brand has been deleted", { theme: "colored" });
+      toast.success("brand has been deleted");
       dispatch({
         type: DELETE_BRAND,
         payload: brand_id,

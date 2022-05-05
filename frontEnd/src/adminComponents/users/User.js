@@ -37,7 +37,9 @@ function User() {
             back
           </button>
           {isEmpty(user) && loading ? (
-            <div className='text-center'><Spinner animation="border" role="status" /></div>
+            <div className="text-center">
+              <Spinner animation="border" role="status" />
+            </div>
           ) : !isEmpty(user) ? (
             <div className="card shadow">
               <div className="card-header text-center">
@@ -72,12 +74,16 @@ function User() {
                   <strong>
                     <i className="fas fa-user-tag"></i> Role:-{" "}
                   </strong>{" "}
-                  <Link
-                    to={`/admin-users/role/${user._id}`}
-                    className="badge badge-danger"
-                  >
-                    {user.role}
-                  </Link>
+                  {user._id === "superAdmin" ? (
+                    <Link
+                      to={`/admin-users/role/${user._id}`}
+                      className="badge badge-danger"
+                    >
+                      {user.role}
+                    </Link>
+                  ) : (
+                    user.role
+                  )}
                 </p>
                 <p>
                   <strong>

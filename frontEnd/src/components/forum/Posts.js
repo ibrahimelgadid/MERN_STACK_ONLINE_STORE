@@ -56,7 +56,6 @@ function Posts({ post }) {
     const commentData = { comment };
     AddNewComment(commentData, post._id, setLoading);
     setComment("");
-    // console.log(commentData, post._id);
   };
 
   return (

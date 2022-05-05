@@ -9,7 +9,7 @@ import {
   getNotifications,
 } from "../../ReduxCycle/actions/notificationsActions";
 import { format } from "timeago.js";
-import {socketConn} from '../../utilis/socket';
+import { socketConn } from "../../utilis/socket";
 
 var socket = io(socketConn);
 
@@ -25,19 +25,23 @@ function AdminHeader() {
     color: "azure",
   };
 
-  const { notifications, loading } = useSelector((state) => state.notificationsReducer);
+  const { notifications, loading } = useSelector(
+    (state) => state.notificationsReducer
+  );
   const GetNotifications = bindActionCreators(getNotifications, useDispatch());
-  const ClearNotification = bindActionCreators(clearNotification, useDispatch());
-
+  const ClearNotification = bindActionCreators(
+    clearNotification,
+    useDispatch()
+  );
 
   const DeleteNotification = bindActionCreators(
     deleteNotification,
     useDispatch()
   );
 
-  const deleteNoty = (id)=>{
-    DeleteNotification(id)
-  }
+  const deleteNoty = (id) => {
+    DeleteNotification(id);
+  };
 
   useEffect(() => {
     GetNotifications();
@@ -50,7 +54,6 @@ function AdminHeader() {
     });
     // eslint-disable-next-line
   }, []);
-
 
   return (
     // <!-- Navbar -->
@@ -71,7 +74,6 @@ function AdminHeader() {
 
       {/* <!-- Right navbar links --> */}
       <ul className="navbar-nav ml-auto">
-
         {/* <!-- Notifications Dropdown Menu --> */}
         <li className="nav-item dropdown">
           <a className="nav-link" data-toggle="dropdown" href=".">
@@ -81,80 +83,91 @@ function AdminHeader() {
               {notifications.length}
             </span>
           </a>
-        {!loading && <>
-          <div
-          onClick={(e)=>e.stopPropagation()}
-            className="dropdown-menu dropdown-menu-lg dropdown-menu-right"
-            style={{ textIndent: "-6px" }}
-          >
-            <span className="dropdown-item dropdown-header">
-              {notifications.length} notifications
-              {notifications.length>0 &&(<span className="float-right text-danger" onClick={()=>ClearNotification()} style={{cursor:'pointer'}}> clear </span>)}
-            </span>
-            <div className="dropdown-divider"></div>
-
-            {notifications.length>0 ? (
-              notifications.map(noty => (
-                <Fragment key={noty._id} >
-                  {noty.type === 'cartItemChange'
-                  ?(<span className="dropdown-item p-2">
-                    <strong className="text-danger">
-                      {noty.from.name}
-                    </strong>{" "}
-                    add new item
-                    <span className="text-danger" style={{ fontSize: "12px" }}>
-                      {noty.data.name}
-                    </span>{" "}
-                    to his cart
-                    <span className="float-right text-muted text-sm">
-                      {format(noty.createdAt)}
-                    </span>{" "}
-                    <i
-                      className="text-primary fa fa-times"
-                      style={{cursor:'pointer'}}
-                      onClick={() => {deleteNoty(noty._id)
-                      
-                      }}
+          {!loading && (
+            <>
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                style={{ textIndent: "-6px" }}
+              >
+                <span className="dropdown-item dropdown-header">
+                  {notifications.length} notifications
+                  {notifications.length > 0 && (
+                    <span
+                      className="float-right text-danger"
+                      onClick={() => ClearNotification()}
+                      style={{ cursor: "pointer" }}
                     >
-                    </i>
-                  </span>)
-                  :(
-                    <span className="dropdown-item p-2">
-                    
-                    New user registered
-                    (<strong className="text-danger">
-                      {noty.from.name}
-                    </strong>){" "}
-    
-                    <span className="float-right text-muted text-sm d-block">
-                      {format(noty.createdAt)}
-                    </span>{" "}
-                    <i
-                      className="text-primary fa fa-times"
-                      style={{cursor:'pointer'}}
-                      onClick={() => {deleteNoty(noty._id)
-                      
-                      }}
-                    >
-                    </i>
-                  </span>
+                      {" "}
+                      clear{" "}
+                    </span>
                   )}
-                  <div className="dropdown-divider"></div>
-                </Fragment>
-              ))
-            ) : (
-              <span className="dropdown-item dropdown-header">
-                There's no Notifications
-              </span>
-            )}
+                </span>
+                <div className="dropdown-divider"></div>
 
-            <a href="." className="dropdown-item dropdown-footer">
-              See All Notifications
-            </a>
-          </div>
-          </>}
+                {notifications.length > 0 ? (
+                  notifications.map((noty) => (
+                    <Fragment key={noty._id}>
+                      {noty.type === "cartItemChange" ? (
+                        <span className="dropdown-item p-2">
+                          <strong className="text-danger">
+                            {noty.from.name}
+                          </strong>{" "}
+                          add new item
+                          <span
+                            className="text-danger"
+                            style={{ fontSize: "12px" }}
+                          >
+                            {noty.data.name}
+                          </span>{" "}
+                          to his cart
+                          <span className="float-right text-muted text-sm">
+                            {format(noty.createdAt)}
+                          </span>{" "}
+                          <i
+                            className="text-primary fa fa-times"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              deleteNoty(noty._id);
+                            }}
+                          ></i>
+                        </span>
+                      ) : (
+                        <span className="dropdown-item p-2">
+                          New user registered (
+                          <strong className="text-danger">
+                            {noty.from.name}
+                          </strong>
+                          ){" "}
+                          <span className="float-right text-muted text-sm d-block">
+                            {format(noty.createdAt)}
+                          </span>{" "}
+                          <i
+                            className="text-primary fa fa-times"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              deleteNoty(noty._id);
+                            }}
+                          ></i>
+                        </span>
+                      )}
+                      <div className="dropdown-divider"></div>
+                    </Fragment>
+                  ))
+                ) : (
+                  <span className="dropdown-item dropdown-header">
+                    There's no Notifications
+                  </span>
+                )}
+
+                <a href="." className="dropdown-item dropdown-footer">
+                  See All Notifications
+                </a>
+              </div>
+            </>
+          )}
         </li>
-       
+
         <li className="nav-item">
           <a
             className="nav-link"

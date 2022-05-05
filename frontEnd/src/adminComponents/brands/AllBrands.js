@@ -20,6 +20,7 @@ function AllBrands() {
   const handleShowEdit = () => setShowEdit(true);
 
   const { brands, loading } = useSelector((state) => state.brandsReducer);
+  const { user } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
   const Getbrands = bindActionCreators(getBrands, dispatch);
   const DeleteBrand = bindActionCreators(deleteBrand, dispatch);
@@ -50,20 +51,26 @@ function AllBrands() {
             <td>{Brand.publisher ? Brand.publisher.name : "Deleted user"}</td>
 
             <td>
-              <i
-                style={{ cursor: "pointer" }}
-                onClick={() => handleDelete(Brand._id)}
-                className="far fa-times-circle text-danger"
-              ></i>
+              {user.id === Brand.publisher._id ? (
+                <>
+                  <i
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleDelete(Brand._id)}
+                    className="far fa-times-circle text-danger"
+                  ></i>
 
-              <i
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  setBrandID(Brand._id);
-                  handleShowEdit();
-                }}
-                className="fas fa-edit text-primary ml-2"
-              ></i>
+                  <i
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setBrandID(Brand._id);
+                      handleShowEdit();
+                    }}
+                    className="fas fa-edit text-primary ml-2"
+                  ></i>
+                </>
+              ) : (
+                "not owner"
+              )}
             </td>
           </tr>
         ))}

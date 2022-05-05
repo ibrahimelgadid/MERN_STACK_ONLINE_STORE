@@ -15,7 +15,7 @@ export const addNewProduct =
     axios
       .post("products", productData)
       .then((res) => {
-        toast.success("New product has been added", { theme: "colored" });
+        toast.success("New product has been added");
         navigate("/admin-products");
         setLoading(false);
       })
@@ -36,7 +36,7 @@ export const editProduct =
     axios
       .put("products/" + id, productData)
       .then((res) => {
-        toast.success("Product has been edited", { theme: "colored" });
+        toast.success("Product has been edited");
         navigate("/admin-products");
         setLoading(false);
       })
@@ -139,9 +139,9 @@ export const getProductsByFilter = (filterData) => (dispatch) => {
     });
 };
 
-export const getProductsBySearch = (searchData) => (dispatch) => {
+export const getProductsBySearch = (search, page) => (dispatch) => {
   axios
-    .post("products/search?page=0", searchData)
+    .post(`products/search?search=${search}&page=${page}`)
     .then((res) => {
       dispatch({
         type: GET_PRODUCTS,
@@ -197,7 +197,7 @@ export const deleteProduct = (product_id) => (dispatch) => {
   axios
     .delete("products/" + product_id)
     .then((res) => {
-      toast.success("Product has been deleted", { theme: "colored" });
+      toast.success("Product has been deleted");
       dispatch({
         type: DELETE_PRODUCT,
         payload: product_id,

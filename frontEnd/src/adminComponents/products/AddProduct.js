@@ -2,12 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { bindActionCreators } from "redux";
 import { addNewProduct } from "../../ReduxCycle/actions/productsActions";
 import { getBrands } from "../../ReduxCycle/actions/brandsActions";
 import { getCategories } from "../../ReduxCycle/actions/categoriesActions";
-import isEmpty from "../../utilis/isEmpty";
 import classnames from "classnames";
 
 function AddProduct() {
@@ -35,7 +33,7 @@ function AddProduct() {
 
   const handleSumit = (e) => {
     e.preventDefault();
-    let productData = new FormData();
+    const productData = new FormData();
     productData.append("name", name);
     productData.append("price", price);
     productData.append("category", category);

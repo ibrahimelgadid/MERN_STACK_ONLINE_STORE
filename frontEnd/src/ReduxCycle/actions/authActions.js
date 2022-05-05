@@ -16,9 +16,7 @@ export const register = (registerData, navigate, setLoading) => (dispatch) => {
   axios
     .post("users/register", registerData)
     .then((res) => {
-      toast.success("You have been registered, login now", {
-        theme: "colored",
-      });
+      toast.success("You have been registered, login now");
       var socket = io(socketConn);
 
       //real-time notification
@@ -123,9 +121,7 @@ export const changeImg = (imgData) => (dispatch) => {
         type: SET_CURRENT_USER,
         payload: jwtDecode(localStorage.token),
       });
-      toast.success("Your profile Image have been edited, loggin again", {
-        theme: "colored",
-      });
+      toast.success("Your profile Image have been changed");
     })
 
     .catch((err) => {

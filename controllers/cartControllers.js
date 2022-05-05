@@ -1,87 +1,146 @@
 //---------------------------------------------|
 //           All required modules
 //---------------------------------------------|
-const bcrypt = require("bcryptjs");
-const validateRegistrationInputs = require("../validation/registerValidate");
-const Auth = require("../models/authModel");
-const validateLoginInputs = require("../validation/loginValidate.");
-const jwt = require("jsonwebtoken");
+const cartModel = require("../models/cartModel");
 const asyncHandler = require("express-async-handler");
 
 //---------------------------------------------|
-//           Register functionality
+//           ADD PRODUCT TO CART
 //---------------------------------------------|
-const register = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
-  const { isValid, errors } = validateRegistrationInputs(req.body);
-  if (!isValid) return res.status(400).json(errors);
+const addToCart = asyncHandler(async (req, res) => {
+  const cartID = req.user.id;
+  const price = req.body.price;
+  const newProduct = {
+    _id: req.body.id,
+    name: req.body.name,
+    price: req.body.price,
+    qty: 1,
+  };
 
-  const userExists = await Auth.findOne({ email });
-
-  if (userExists) {
-    errors.email = "This email already exists";
-    return res.status(400).json(errors);
-  } else {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = new Auth({
-      username,
-      email,
-      password: hashedPassword,
+  const existsCart = await cartModel.findById({ _id: cartID });
+  if (!existsCart) {
+    const newCartModel = new cartModel({
+      _id: cartID,
+      totalQty: 1,
+      totalPrice: price,
+      selectedProduct: [newProduct],
     });
-
-    const newUserAdded = await newUser.save();
-
-    if (newUserAdded) {
-      res.status(201).json(newUserAdded);
-    } else {
-      res.status(400).json({ RegErr: "Failed to create user" });
-    }
-  }
-});
-
-//---------------------------------------------|
-//           Login functionality
-//---------------------------------------------|
-const login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  const { isValid, errors } = validateLoginInputs(req.body);
-  if (!isValid) return res.status(400).json(errors);
-
-  const user = await Auth.findOne({ email });
-  if (!user) {
-    errors.email = "This email is not exists";
-    return res.status(404).json(errors);
+    const newCartItem = await newCartModel.save();
+    return res.status(201).json(newCartItem);
   } else {
-    const matchPass = await bcrypt.compare(password, user.password);
+    const productIndex = existsCart.selectedProduct
+      .map((c) => c._id)
+      .indexOf(req.body.id);
+    // if exist cart but this product not exist
+    if (productIndex < 0) {
+      existsCart.totalPrice += price;
+      existsCart.totalQty += 1;
+      existsCart.selectedProduct.push(newProduct);
 
-    if (!matchPass) {
-      errors.password = "Wrong password";
-      return res.status(404).json(errors);
+      const updatedCartProductNotExist = await cartModel.findByIdAndUpdate(
+        { _id: cartID },
+        { $set: existsCart },
+        { new: true }
+      );
+
+      return res.status(201).json(updatedCartProductNotExist);
     } else {
-      res.status(200).json({
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        token: generateToken(user.id, user.username, user.email),
-      });
+      // if exist cart and product
+      existsCart.selectedProduct[productIndex].price += price;
+      existsCart.selectedProduct[productIndex].qty += 1;
+      existsCart.totalPrice += price;
+      existsCart.totalQty += 1;
+      const updatedCartProductExist = await cartModel.findByIdAndUpdate(
+        { _id: cartID },
+        { $set: existsCart },
+        { new: true }
+      );
+
+      return res.status(201).json(updatedCartProductExist);
     }
   }
 });
 
 //---------------------------------------------|
-//           generate token functionality
+//           GET CART ITEMS
 //---------------------------------------------|
-const generateToken = (id, username, email) => {
-  return jwt.sign({ id, username, email }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
-  });
-};
+const getCartItems = asyncHandler(async (req, res) => {
+  const cartItems = await cartModel.findById({ _id: req.user.id });
+  return res.status(200).json(cartItems);
+});
+//---------------------------------------------|
+//           INCREASE CART PRODUCT COUNT
+//---------------------------------------------|
+const increaseCartItemCount = asyncHandler(async (req, res) => {
+  const price = Number(req.body.price);
+  const Index = req.body.index;
+  const cart = await cartModel.findById({ _id: req.user.id });
+  cart.totalQty += 1;
+  cart.totalPrice += price;
+  cart.selectedProduct[Index].qty += 1;
+  cart.selectedProduct[Index].price += price;
+  const updatedCart = await cartModel.findByIdAndUpdate(
+    { _id: req.user.id },
+    { $set: cart },
+    { new: true }
+  );
+
+  return res.status(200).json(updatedCart);
+});
+//---------------------------------------------|
+//           DECREASE CART PRODUCT COUNT
+//---------------------------------------------|
+const decreaseCartItemCount = asyncHandler(async (req, res) => {
+  const price = Number(req.body.price);
+  const Index = req.body.index;
+  const cart = await cartModel.findById({ _id: req.user.id });
+  cart.totalQty -= 1;
+  cart.totalPrice -= price;
+  cart.selectedProduct[Index].qty -= 1;
+  cart.selectedProduct[Index].price -= price;
+  const updatedCart = await cartModel.findByIdAndUpdate(
+    { _id: req.user.id },
+    { $set: cart },
+    { new: true }
+  );
+
+  return res.status(200).json(updatedCart);
+});
+//---------------------------------------------|
+//           DELETE CART ITEM
+//---------------------------------------------|
+const deleteCartItem = asyncHandler(async (req, res) => {
+  const Index = req.body.index;
+
+  const cart = await cartModel.findById({ _id: req.user.id });
+  if (cart) {
+    cart.totalPrice -= cart.selectedProduct[Index].price;
+    cart.totalQty -= cart.selectedProduct[Index].qty;
+    cart.selectedProduct.splice(Index, 1);
+
+    const deletedCartItem = await cartModel.findByIdAndUpdate(
+      { _id: req.user.id },
+      { $set: cart },
+      { new: true }
+    );
+    return res.status(200).json(deletedCartItem);
+  }
+});
+//---------------------------------------------|
+//           CLEAR CART
+//---------------------------------------------|
+const clearCart = asyncHandler(async (req, res) => {
+  const clearedCart = await cartModel.findByIdAndDelete({ _id: req.user.id });
+
+  return res.status(200).json(clearedCart);
+});
 
 // export modules
 module.exports = {
-  register,
-  login,
+  addToCart,
+  getCartItems,
+  increaseCartItemCount,
+  decreaseCartItemCount,
+  deleteCartItem,
+  clearCart,
 };

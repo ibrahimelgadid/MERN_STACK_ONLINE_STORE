@@ -2,7 +2,6 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { bindActionCreators } from "redux";
 import { editPost, getPost } from "../../ReduxCycle/actions/postsActions";
 import isEmpty from "../../utilis/isEmpty";
@@ -23,7 +22,7 @@ function EditPost({ postID, handleClose }) {
       text,
     };
 
-    EditPost(postData, postID, setLoading);
+    EditPost(postData, postID, setLoading, handleClose);
   };
 
   useEffect(() => {

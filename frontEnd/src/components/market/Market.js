@@ -21,11 +21,12 @@ import { Pagination, Spinner } from "react-bootstrap";
 // import Carousel from "./Carousel";
 
 function Market() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get("page");
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: 1,
+    search: "",
+  });
   const [grid, setGrid] = useState(true);
-  const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(0);
+  const [searchWord, setSearchWord] = useState("");
   const [isMounted, setIsMounted] = useState(false);
 
   const { products, loading, productsCount } = useSelector(
@@ -52,48 +53,39 @@ function Market() {
   const { categories } = useSelector((state) => state.categoriesReducer);
   const GetCategories = bindActionCreators(getCategories, useDispatch());
 
+  const pageParam = searchParams.get("page");
+  const searchParam = searchParams.get("search");
+  const pagesNumber = Array(productsCount).fill("");
+
   const { categoryHandle } = useParams();
   const { brandHandle } = useParams();
 
+  // get all products without search or filter word
   useEffect(() => {
-    setCurrentPage(page);
-    // eslint-disable-next-line
-  }, [page]);
-
-  const pages = new Array(productsCount).fill(null).map((p, i) => p);
-
-  useEffect(() => {
-    if (isEmpty(brandHandle) && isEmpty(categoryHandle)) {
-      GetProducts(currentPage);
+    if (isEmpty(searchParam)) {
+      GetProducts(pageParam);
     }
+    // eslint-disable-next-line
+  }, [pageParam]);
+  useEffect(() => {
     GetCategories();
     GetBrands();
     // eslint-disable-next-line
-  }, [brandHandle, categoryHandle, currentPage]);
+  }, []);
+
+  // change searchParams when search word changed
+  useEffect(() => {
+    setSearchParams({
+      page: 1,
+      search: searchWord,
+    });
+    // eslint-disable-next-line
+  }, [searchWord]);
 
   useEffect(() => {
-    if (!isEmpty(categoryHandle)) {
-      GetProductsByCategory(categoryHandle);
-    }
+    GetProductsBySearch(searchParam, pageParam);
     // eslint-disable-next-line
-  }, [categoryHandle]);
-
-  useEffect(() => {
-    if (!isEmpty(brandHandle)) {
-      GetProductsByBrand(brandHandle);
-    }
-    // eslint-disable-next-line
-  }, [brandHandle]);
-
-  useEffect(() => {
-    if (isMounted) {
-      const searchData = { search };
-      GetProductsBySearch(searchData);
-    } else {
-      setIsMounted(true);
-    }
-    // eslint-disable-next-line
-  }, [search]);
+  }, [searchWord, searchParams]);
 
   return (
     <div className=" market">
@@ -101,7 +93,9 @@ function Market() {
       <div className="row mx-2">
         <div className="col-12 ">
           {isEmpty(products) && loading ? (
-            <div className='text-center'><Spinner animation="border" role="status" /></div>
+            <div className="text-center">
+              <Spinner animation="border" role="status" />
+            </div>
           ) : (
             <div className="my-4">
               <div className="row">
@@ -138,9 +132,9 @@ function Market() {
                         <i className="fas fa-search"></i>
                       </span>
                       <input
-                        value={search}
+                        value={searchWord}
                         onChange={(e) => {
-                          setSearch(e.target.value);
+                          setSearchWord(e.target.value);
                         }}
                         type="text"
                         className="form-control"
@@ -149,6 +143,7 @@ function Market() {
                     </div>
                   </form>
                 </div>
+
                 <div className="col-3">
                   <div
                     className="btn-group float-end"
@@ -198,11 +193,20 @@ function Market() {
                   )}
 
                   <Pagination size="sm">
-                    {pages.map((p, i) => (
+                    {pagesNumber.map((p, i) => (
                       <Pagination.Item
-                        active={page === String(i)}
+                        active={pageParam === String(i + 1)}
                         key={i}
-                        onClick={() => setSearchParams({ page: i })}
+                        onClick={() =>
+                          searchParam
+                            ? setSearchParams({
+                                page: i + 1,
+                                search: searchParam,
+                              })
+                            : setSearchParams({
+                                page: i + 1,
+                              })
+                        }
                       >
                         {i + 1}
                       </Pagination.Item>
@@ -211,8 +215,12 @@ function Market() {
                 </div>
               ) : (
                 <div className="text-center">
-                <strong className='text-danger'> <i className='fas fa-exclamation-circle'></i> There is no products</strong>
-              </div>
+                  <strong className="text-danger">
+                    {" "}
+                    <i className="fas fa-exclamation-circle"></i> There is no
+                    products
+                  </strong>
+                </div>
               )}
             </div>
           )}

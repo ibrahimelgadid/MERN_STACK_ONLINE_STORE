@@ -1,87 +1,123 @@
 //---------------------------------------------|
 //           All required modules
 //---------------------------------------------|
-const bcrypt = require("bcryptjs");
-const validateRegistrationInputs = require("../validation/registerValidate");
-const Auth = require("../models/authModel");
-const validateLoginInputs = require("../validation/loginValidate.");
-const jwt = require("jsonwebtoken");
+const brandModel = require("../models/brandModel");
+const brandValidators = require("../validation/brandValidators");
 const asyncHandler = require("express-async-handler");
+const { notOwner } = require("../helpers/privilleges");
+const cleanName = require("../helpers/namesFuns");
 
 //---------------------------------------------|
-//           Register functionality
+//           GET ALL BRANDS
 //---------------------------------------------|
-const register = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
-  const { isValid, errors } = validateRegistrationInputs(req.body);
-  if (!isValid) return res.status(400).json(errors);
+const getAllBrands = asyncHandler(async (req, res) => {
+  const brands = await brandModel.find().populate("publisher", ["name"]);
+  if (brands) {
+    return res.status(200).json(brands);
+  }
+});
 
-  const userExists = await Auth.findOne({ email });
+//---------------------------------------------|
+//           GET BRAND BY ID
+//---------------------------------------------|
+const getBrandById = asyncHandler(async (req, res) => {
+  const brand = await brandModel.findOne({ _id: req.params.brandID });
+  return res.status(200).json(brand);
+});
 
-  if (userExists) {
-    errors.email = "This email already exists";
+//---------------------------------------------|
+//           ADD NEW BRAND
+//---------------------------------------------|
+const addNewBrand = asyncHandler(async (req, res) => {
+  const { isValid, errors } = brandValidators(req.body);
+  if (!isValid) {
     return res.status(400).json(errors);
-  } else {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = new Auth({
-      username,
-      email,
-      password: hashedPassword,
-    });
-
-    const newUserAdded = await newUser.save();
-
-    if (newUserAdded) {
-      res.status(201).json(newUserAdded);
-    } else {
-      res.status(400).json({ RegErr: "Failed to create user" });
-    }
   }
-});
 
-//---------------------------------------------|
-//           Login functionality
-//---------------------------------------------|
-const login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  const { isValid, errors } = validateLoginInputs(req.body);
-  if (!isValid) return res.status(400).json(errors);
-
-  const user = await Auth.findOne({ email });
-  if (!user) {
-    errors.email = "This email is not exists";
-    return res.status(404).json(errors);
-  } else {
-    const matchPass = await bcrypt.compare(password, user.password);
-
-    if (!matchPass) {
-      errors.password = "Wrong password";
-      return res.status(404).json(errors);
-    } else {
-      res.status(200).json({
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        token: generateToken(user.id, user.username, user.email),
-      });
-    }
-  }
-});
-
-//---------------------------------------------|
-//           generate token functionality
-//---------------------------------------------|
-const generateToken = (id, username, email) => {
-  return jwt.sign({ id, username, email }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
+  const brandExists = await brandModel.findOne({
+    name: cleanName(req.body.name),
   });
-};
+  if (brandExists) {
+    const errors = {};
+    errors.name = "Name must be unique";
+    return res.status(400).json(errors);
+  }
+
+  const newBrandModel = new brandModel({
+    name: cleanName(req.body.name),
+    description: req.body.description,
+    publisher: req.user.id,
+  });
+  await newBrandModel.save();
+
+  const populatedBrand = await brandModel.populate(newBrandModel, {
+    path: "publisher",
+    select: "name",
+  });
+  res.status(201).json(populatedBrand);
+});
+
+//---------------------------------------------|
+//           UPDATE BRAND
+//---------------------------------------------|
+const updateBrand = asyncHandler(async (req, res) => {
+  // check for brand owner
+  const brand = await brandModel.findById(req.params.brandID);
+  if (!notOwner(req, res, brand.publisher, "brand")) {
+    //check for validations
+    const { isValid, errors } = brandValidators(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    const brandExists = await brandModel.findOne({
+      $and: [
+        { name: cleanName(req.body.name) },
+        { _id: { $ne: req.params.brandID } },
+      ],
+    });
+    if (brandExists) {
+      const errors = {};
+      errors.name = "Name must be unique";
+      return res.status(400).json(errors);
+    }
+
+    const newBrandModel = {
+      name: cleanName(req.body.name),
+      description: req.body.description,
+      brand: req.body.brand,
+    };
+
+    const updatedBrand = await brandModel
+      .findOneAndUpdate(
+        { _id: req.params.brandID },
+        { $set: newBrandModel },
+        { new: true }
+      )
+      .populate("publisher", ["name"]);
+    res.status(200).json(updatedBrand);
+  }
+});
+
+//---------------------------------------------|
+//           DELETE BRAND
+//---------------------------------------------|
+const deleteBrandByID = asyncHandler(async (req, res) => {
+  const brand = await brandModel.findById(req.params.brandID);
+  if (!notOwner(req, res, brand.publisher, "brand")) {
+    await brandModel.findOneAndDelete(
+      { _id: req.params.brandID },
+      { new: true }
+    );
+    return res.status(200).json("done");
+  }
+});
 
 // export modules
 module.exports = {
-  register,
-  login,
+  getAllBrands,
+  getBrandById,
+  addNewBrand,
+  updateBrand,
+  deleteBrandByID,
 };

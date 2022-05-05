@@ -20,7 +20,7 @@ const brandsRouter = require("./routes/api/brandRoutes");
 const cartRouter = require("./routes/api/cartRoutes");
 const ordersRouter = require("./routes/api/orderRoutes");
 const postsRouter = require("./routes/api/postRoutes");
-const notificationsRouter = require("./routes/api/notificationRooutes");
+const notificationsRouter = require("./routes/api/notificationRoutes");
 const stripeRouter = require("./routes/api/stripeRoutes");
 
 //---------------------------------------------|

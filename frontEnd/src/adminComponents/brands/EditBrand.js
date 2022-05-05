@@ -1,34 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { bindActionCreators } from "redux";
 import isEmpty from "../../utilis/isEmpty";
 import classnames from "classnames";
 import { editBrand, getBrand } from "../../ReduxCycle/actions/brandsActions";
 
-function EditBrand({ handleCloseEdit, brandID }) {
+function EditBrand({ brandID }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState("");
-  let [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [Loading, setLoading] = useState(false);
 
-  let errorsFromState = useSelector((state) => state.errorsReducer);
-  let { brand } = useSelector((state) => state.brandsReducer);
+  const errorsFromState = useSelector((state) => state.errorsReducer);
+  const { brand } = useSelector((state) => state.brandsReducer);
   const dispatch = useDispatch();
-  let EditBrand = bindActionCreators(editBrand, dispatch);
-  let GetBrand = bindActionCreators(getBrand, dispatch);
+  const EditBrand = bindActionCreators(editBrand, dispatch);
+  const GetBrand = bindActionCreators(getBrand, dispatch);
 
   const handleSumit = (e) => {
     e.preventDefault();
-    let brandData = {
+    const brandData = {
       name,
       description,
     };
 
     EditBrand(brandData, brandID, setLoading);
-    handleCloseEdit(true);
   };
 
   useEffect(() => {
@@ -46,12 +44,6 @@ function EditBrand({ handleCloseEdit, brandID }) {
   useEffect(() => {
     if (isMounted) {
       setErrors(errorsFromState);
-
-      if (!isEmpty(errorsFromState)) {
-        Object.values(errors).map((value) =>
-          toast.warn(value, { theme: "colored" })
-        );
-      }
     } else {
       setIsMounted(true);
     }
@@ -79,6 +71,9 @@ function EditBrand({ handleCloseEdit, brandID }) {
                     onChange={(e) => setName(e.target.value)}
                     className={classnames({ "is-invalid": errors.name })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group
@@ -95,6 +90,9 @@ function EditBrand({ handleCloseEdit, brandID }) {
                     onChange={(e) => setDescription(e.target.value)}
                     className={classnames({ "is-invalid": errors.description })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.description}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button className="col-12" variant="primary" type="submit">

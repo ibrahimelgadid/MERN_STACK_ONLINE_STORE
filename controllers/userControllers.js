@@ -91,7 +91,7 @@ const login = asyncHandler(async (req, res) => {
 const editUserRole = asyncHandler(async (req, res) => {
   if (req.user.role === "superAdmin") {
     const updateUser = await userModel.findOneAndUpdate(
-      { _id: req.params.userID },
+      { $and: [{ _id: req.params.userID }, { role: { $ne: "superAdmin" } }] },
       { $set: { role: req.body.role } },
       { new: true }
     );

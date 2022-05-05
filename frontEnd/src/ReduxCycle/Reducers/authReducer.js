@@ -1,5 +1,5 @@
 import isEmpty from "../../utilis/isEmpty";
-import { GET_USER_EDIT, SET_CURRENT_USER } from "../actions/actionsTypes";
+import { SET_CURRENT_USER } from "../actions/actionsTypes";
 
 let initialState = {
   user: {},

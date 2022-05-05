@@ -2,13 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { bindActionCreators } from "redux";
 import {
   editProduct,
   getProduct,
 } from "../../ReduxCycle/actions/productsActions";
-import isEmpty from "../../utilis/isEmpty";
 import classnames from "classnames";
 import { getBrands } from "../../ReduxCycle/actions/brandsActions";
 import { getCategories } from "../../ReduxCycle/actions/categoriesActions";
@@ -76,12 +74,6 @@ function EditProduct() {
   useEffect(() => {
     if (isMounted) {
       setErrors(errorsFromState);
-
-      if (!isEmpty(errorsFromState)) {
-        Object.values(errors).map((value) =>
-          toast.warn(value, { theme: "colored" })
-        );
-      }
     } else {
       setIsMounted(true);
     }
@@ -160,6 +152,9 @@ function EditProduct() {
                     onChange={(e) => setPrice(e.target.value)}
                     className={classnames({ "is-invalid": errors.price })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.price}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group
@@ -179,6 +174,9 @@ function EditProduct() {
                       </option>
                     ))}
                   </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.category}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group
@@ -196,6 +194,9 @@ function EditProduct() {
                       <option key={brand.id}>{brand.name}</option>
                     ))}
                   </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.brand}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button className="col-12" variant="primary" type="submit">

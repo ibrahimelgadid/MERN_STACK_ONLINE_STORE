@@ -25,18 +25,11 @@ function AddCategory({ handleClose }) {
       description,
     };
     AddNewCategory(categoryData, setLoading);
-    handleClose(true);
   };
 
   useEffect(() => {
     if (isMounted) {
       setErrors(errorsFromState);
-
-      if (!isEmpty(errorsFromState)) {
-        Object.values(errors).map((value) =>
-          toast.warn(value, { theme: "colored" })
-        );
-      }
     } else {
       setIsMounted(true);
     }
@@ -63,6 +56,9 @@ function AddCategory({ handleClose }) {
                     onChange={(e) => setName(e.target.value)}
                     className={classnames({ "is-invalid": errors.name })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group
@@ -79,6 +75,9 @@ function AddCategory({ handleClose }) {
                     onChange={(e) => setDescription(e.target.value)}
                     className={classnames({ "is-invalid": errors.description })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.description}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button className="col-12" variant="primary" type="submit">

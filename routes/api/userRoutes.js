@@ -1,10 +1,9 @@
 //---------------------------------------------|
 //           All required modules              |
 //---------------------------------------------|
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const passport = require("passport");
-const upload = require("../../helpers/userAvatar");
+const upload = require("../../helpers/imgUpload");
 const {
   getAllUsers,
   register,
@@ -74,7 +73,7 @@ router.route("/changeImg").put(
   passport.authenticate("jwt", {
     session: false,
   }),
-  upload.single("userAvatar"),
+  upload("public/userAvatar/").single("userAvatar"),
   (err, req, res, next) => {
     if (err) {
       const errors = {};

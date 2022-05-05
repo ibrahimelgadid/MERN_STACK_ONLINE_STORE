@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { bindActionCreators } from "redux";
 import isEmpty from "../../utilis/isEmpty";
 import classnames from "classnames";
@@ -14,24 +13,23 @@ function EditCategory({ handleCloseEdit, categoryID }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState("");
-  let [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [Loading, setLoading] = useState(false);
 
-  let errorsFromState = useSelector((state) => state.errorsReducer);
-  let { category } = useSelector((state) => state.categoriesReducer);
+  const errorsFromState = useSelector((state) => state.errorsReducer);
+  const { category } = useSelector((state) => state.categoriesReducer);
   const dispatch = useDispatch();
-  let EditCategory = bindActionCreators(editCategory, dispatch);
-  let GetCategory = bindActionCreators(getCategory, dispatch);
+  const EditCategory = bindActionCreators(editCategory, dispatch);
+  const GetCategory = bindActionCreators(getCategory, dispatch);
 
   const handleSumit = (e) => {
     e.preventDefault();
-    let categoryData = {
+    const categoryData = {
       name,
       description,
     };
 
     EditCategory(categoryData, categoryID, setLoading);
-    handleCloseEdit(true);
   };
 
   useEffect(() => {
@@ -49,12 +47,6 @@ function EditCategory({ handleCloseEdit, categoryID }) {
   useEffect(() => {
     if (isMounted) {
       setErrors(errorsFromState);
-
-      if (!isEmpty(errorsFromState)) {
-        Object.values(errors).map((value) =>
-          toast.warn(value, { theme: "colored" })
-        );
-      }
     } else {
       setIsMounted(true);
     }
@@ -82,6 +74,9 @@ function EditCategory({ handleCloseEdit, categoryID }) {
                     onChange={(e) => setName(e.target.value)}
                     className={classnames({ "is-invalid": errors.name })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group
@@ -98,6 +93,9 @@ function EditCategory({ handleCloseEdit, categoryID }) {
                     onChange={(e) => setDescription(e.target.value)}
                     className={classnames({ "is-invalid": errors.description })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.description}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button className="col-12" variant="primary" type="submit">

@@ -6,6 +6,7 @@ import {
   faSatellite,
   faUpload,
   faUser,
+  faSkullCrossbones,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
@@ -20,7 +21,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changeImg } from "../../ReduxCycle/actions/authActions";
 import isEmpty from "../../utilis/isEmpty";
-import { toast } from "react-toastify";
 import { imgServer } from "../../utilis/imageServer";
 
 function Profile() {
@@ -49,10 +49,6 @@ function Profile() {
   useEffect(() => {
     if (isMounted) {
       setErrors(errorsFromState);
-
-      if (!isEmpty(errorsFromState)) {
-        toast.warn(Object.values(errors).map((value) => value));
-      }
     } else {
       setIsMounted(true);
     }
@@ -126,6 +122,13 @@ function Profile() {
                     </button>
                   </label>
                 </form>
+
+                {errors.userAvatar ? (
+                  <p className="text-danger">
+                    <FontAwesomeIcon icon={faSkullCrossbones} />{" "}
+                    {errors.userAvatar}
+                  </p>
+                ) : null}
 
                 <strong className="d-block text-info">{user.name}</strong>
               </div>

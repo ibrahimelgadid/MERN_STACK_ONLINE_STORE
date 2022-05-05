@@ -3,14 +3,13 @@ import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { deleteComment } from "../../ReduxCycle/actions/postsActions";
-import {imgServer} from "../../utilis/imageServer";
+import { imgServer } from "../../utilis/imageServer";
 
 function Comments({ comment, postID }) {
   const [actions, setActions] = useState(false);
 
   const DeleteComment = bindActionCreators(deleteComment, useDispatch());
-  const {user} = useSelector(state=>state.authReducer);
-  
+  const { user } = useSelector((state) => state.authReducer);
 
   const handleDelete = (commentID) => {
     DeleteComment(postID, commentID);
@@ -34,28 +33,25 @@ function Comments({ comment, postID }) {
         }
       />
       <div className="direct-chat-text">
-        {actions && (
-            comment.user._id === user.id &&
+        {actions && comment.user._id === user.id && (
           <span className="">
             <i
               style={{ cursor: "pointer" }}
               onClick={() => handleDelete(comment._id)}
               className="fas fa-times text-danger mr-2"
-            ></i> 
+            ></i>
           </span>
-          
-  
         )}
         {comment.comment}
         {/* edit modal launcher */}
-        {comment.user._id === user.id ?
+        {comment.user._id === user.id ? (
           <span className="float-start" onClick={() => setActions(!actions)}>
             <i
               style={{ cursor: "pointer" }}
               className="fas fa-ellipsis-v mr-3"
             ></i>
-          </span>:null
-        }
+          </span>
+        ) : null}
       </div>
     </div>
   );

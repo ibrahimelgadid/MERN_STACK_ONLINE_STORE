@@ -103,7 +103,14 @@ function App() {
           element={<ResetPassword />}
         />
         <Route path="/email" element={<Email />} />
-        <Route path="/forum" element={<Forum />} />
+        <Route
+          path="/forum"
+          element={
+            <PrivateRoute>
+              <Forum />
+            </PrivateRoute>
+          }
+        />
         <Route path="/category/:categoryHandle" element={<Market />} />
         <Route path="/brand/:brandHandle" element={<Market />} />
 

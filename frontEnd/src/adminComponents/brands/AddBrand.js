@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { bindActionCreators } from "redux";
-import isEmpty from "../../utilis/isEmpty";
 import classnames from "classnames";
 import { addNewBrand } from "../../ReduxCycle/actions/brandsActions";
 
@@ -25,18 +23,11 @@ function AddBrand({ handleClose }) {
       description,
     };
     AddNewBrand(brandData, setLoading);
-    handleClose(true);
   };
 
   useEffect(() => {
     if (isMounted) {
       setErrors(errorsFromState);
-
-      if (!isEmpty(errorsFromState)) {
-        Object.values(errors).map((value) =>
-          toast.warn(value, { theme: "colored" })
-        );
-      }
     } else {
       setIsMounted(true);
     }
@@ -63,6 +54,9 @@ function AddBrand({ handleClose }) {
                     onChange={(e) => setName(e.target.value)}
                     className={classnames({ "is-invalid": errors.name })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group
@@ -79,6 +73,9 @@ function AddBrand({ handleClose }) {
                     onChange={(e) => setDescription(e.target.value)}
                     className={classnames({ "is-invalid": errors.description })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.description}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button className="col-12" variant="primary" type="submit">

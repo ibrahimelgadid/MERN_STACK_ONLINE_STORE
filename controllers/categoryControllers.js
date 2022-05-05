@@ -1,87 +1,125 @@
 //---------------------------------------------|
 //           All required modules
 //---------------------------------------------|
-const bcrypt = require("bcryptjs");
-const validateRegistrationInputs = require("../validation/registerValidate");
-const Auth = require("../models/authModel");
-const validateLoginInputs = require("../validation/loginValidate.");
-const jwt = require("jsonwebtoken");
+const categoryModel = require("../models/categoryModel");
+const categoryValidators = require("../validation/categoryValidators");
 const asyncHandler = require("express-async-handler");
+const { notOwner } = require("../helpers/privilleges");
+const cleanName = require("../helpers/namesFuns");
 
 //---------------------------------------------|
-//           Register functionality
+//           GET ALL CATEGORY
 //---------------------------------------------|
-const register = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
-  const { isValid, errors } = validateRegistrationInputs(req.body);
-  if (!isValid) return res.status(400).json(errors);
+const getAllCategories = asyncHandler(async (req, res) => {
+  const category = await categoryModel.find().populate("publisher", ["name"]);
+  return res.status(200).json(category);
+});
 
-  const userExists = await Auth.findOne({ email });
+//---------------------------------------------|
+//           GET CATEGORY BY ID
+//---------------------------------------------|
+const getCategoryById = asyncHandler(async (req, res) => {
+  const category = await categoryModel.findOne({ _id: req.params.categoryID });
+  return res.status(200).json(category);
+});
 
-  if (userExists) {
-    errors.email = "This email already exists";
+//---------------------------------------------|
+//           ADD NEW CATEGORY
+//---------------------------------------------|
+const addNewCategory = asyncHandler(async (req, res) => {
+  const { isValid, errors } = categoryValidators(req.body);
+  if (!isValid) {
     return res.status(400).json(errors);
-  } else {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = new Auth({
-      username,
-      email,
-      password: hashedPassword,
-    });
-
-    const newUserAdded = await newUser.save();
-
-    if (newUserAdded) {
-      res.status(201).json(newUserAdded);
-    } else {
-      res.status(400).json({ RegErr: "Failed to create user" });
-    }
   }
-});
-
-//---------------------------------------------|
-//           Login functionality
-//---------------------------------------------|
-const login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-
-  const { isValid, errors } = validateLoginInputs(req.body);
-  if (!isValid) return res.status(400).json(errors);
-
-  const user = await Auth.findOne({ email });
-  if (!user) {
-    errors.email = "This email is not exists";
-    return res.status(404).json(errors);
-  } else {
-    const matchPass = await bcrypt.compare(password, user.password);
-
-    if (!matchPass) {
-      errors.password = "Wrong password";
-      return res.status(404).json(errors);
-    } else {
-      res.status(200).json({
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        token: generateToken(user.id, user.username, user.email),
-      });
-    }
-  }
-});
-
-//---------------------------------------------|
-//           generate token functionality
-//---------------------------------------------|
-const generateToken = (id, username, email) => {
-  return jwt.sign({ id, username, email }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
+  const categoryExists = await categoryModel.findOne({
+    name: cleanName(req.body.name),
   });
-};
+  if (categoryExists) {
+    const errors = {};
+    errors.name = "Name must be unique";
+    return res.status(400).json(errors);
+  }
 
+  const newCategoryModel = new categoryModel({
+    name: cleanName(req.body.name),
+    description: req.body.description,
+    publisher: req.user.id,
+  });
+  await newCategoryModel.save();
+  const populatedCategory = await categoryModel.populate(newCategoryModel, {
+    path: "publisher",
+    select: "name",
+  });
+  res.status(201).json(populatedCategory);
+});
+
+//---------------------------------------------|
+//           UPDATE CATEGORY
+//---------------------------------------------|
+const updateCategory = asyncHandler(async (req, res) => {
+  const category = await categoryModel.findById(req.params.categoryID);
+
+  if (!notOwner(req, res, category.publisher, "category")) {
+    //check for validations
+    const { isValid, errors } = categoryValidators(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    const categoryExists = await categoryModel.findOne({
+      $and: [
+        { name: cleanName(req.body.name) },
+        { _id: { $ne: req.params.categoryID } },
+      ],
+    });
+    if (categoryExists) {
+      const errors = {};
+      errors.name = "Name must be unique";
+      return res.status(400).json(errors);
+    }
+
+    const newCategoryModel = {
+      name: cleanName(req.body.name),
+      description: req.body.description,
+      category: req.body.category,
+    };
+
+    const updatedCategory = await categoryModel
+      .findOneAndUpdate(
+        { _id: req.params.categoryID },
+        { $set: newCategoryModel },
+        { new: true }
+      )
+      .populate("publisher", ["name"]);
+    res.status(200).json(updatedCategory);
+  }
+});
+
+//---------------------------------------------|
+//           DELETE CATEGORY
+//---------------------------------------------|
+const deleteCategoryByID = asyncHandler(async (req, res) => {
+  const category = await categoryModel.findById(req.params.categoryID);
+
+  if (!notOwner(req, res, category.publisher, "category....")) {
+    const deletedCategory = await categoryModel.findOneAndDelete(
+      { _id: req.params.categoryID },
+      { new: true }
+    );
+    if (deletedCategory) {
+      return res.status(200).json("done");
+    } else {
+      const errors = {};
+      errors.category = "There is no category for this id";
+      return res.status(400).json(errors);
+    }
+  }
+});
 // export modules
 module.exports = {
-  register,
-  login,
+  getAllCategories,
+  getCategoryById,
+  addNewCategory,
+  updateCategory,
+  deleteCategoryByID,
 };

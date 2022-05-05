@@ -21,7 +21,7 @@ export const addNewCategory = (categoryData, setLoading) => (dispatch) => {
         payload: res.data,
       });
       setLoading(false);
-      toast.success("New category has been added", { theme: "colored" });
+      toast.success("New category has been added");
     })
 
     .catch((err) => {
@@ -44,7 +44,7 @@ export const editCategory = (categoryData, id, setLoading) => (dispatch) => {
         payload: { id: id, data: res.data },
       });
       setLoading(false);
-      toast.success("Category has been edited", { theme: "colored" });
+      toast.success("Category has been edited");
     })
     .catch((err) => {
       setLoading(false);
@@ -95,7 +95,7 @@ export const deleteCategory = (category_id) => (dispatch) => {
   axios
     .delete("categories/" + category_id)
     .then((res) => {
-      toast.success("Category has been deleted", { theme: "colored" });
+      toast.success("Category has been deleted");
       dispatch({
         type: DELETE_CATEGORY,
         payload: category_id,
