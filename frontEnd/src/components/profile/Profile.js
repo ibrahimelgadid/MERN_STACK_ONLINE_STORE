@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changeImg } from "../../ReduxCycle/actions/authActions";
 import isEmpty from "../../utilis/isEmpty";
-import { imgServer } from "../../utilis/imageServer";
+// import { imgServer } from "../../utilis/imageServer";
 
 function Profile() {
   const [userAvatar, setUserAvatar] = useState("");
@@ -74,11 +74,7 @@ function Profile() {
                   style={{ width: "150px", height: "150px" }}
                   alt=""
                   className="d-block img-fluid rounded-circle img-thumbnail mx-auto"
-                  src={
-                    user.avatar === "noimage.png"
-                      ? `../../../images/${user.avatar}`
-                      : `${imgServer}/userAvatar/${user.avatar}`
-                  }
+                  src={user.avatar}
                 />
 
                 <form onSubmit={handleChangeImg}>

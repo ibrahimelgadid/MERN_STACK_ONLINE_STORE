@@ -11,7 +11,7 @@ import {
 import isEmpty from "../../utilis/isEmpty";
 import Moment from "react-moment";
 import { DropzoneArea } from "material-ui-dropzone";
-import { imgServer } from "../../utilis/imageServer";
+// import { imgServer } from "../../utilis/imageServer";
 
 function Product() {
   const [productImage, setProductImage] = useState("");
@@ -53,7 +53,9 @@ function Product() {
             back
           </button>
           {isEmpty(product) && loading ? (
-            <div className='text-center'><Spinner animation="border" role="status" /></div>
+            <div className="text-center">
+              <Spinner animation="border" role="status" />
+            </div>
           ) : !isEmpty(product) ? (
             <div className="card shadow">
               <div className="card-header text-center">
@@ -65,11 +67,7 @@ function Product() {
                     alt=""
                     style={{ width: "150px", height: "150px" }}
                     className="img-fluid rounded-circle img-thumbnail mx-auto"
-                    src={
-                      product.productImage === "noimage.png"
-                        ? `../../../images/${product.productImage}`
-                        : `${imgServer}/proImage/${product.productImage}`
-                    }
+                    src={product.productImage}
                   />
                 </div>
                 <p>
@@ -106,21 +104,23 @@ function Product() {
                       <i className="fas fa-img"></i> Gallary:-{" "}
                     </strong>
                     {product.productGallary.map((img) => (
-                        <span key={img} className="position-relative">
-                          <img
-                            alt={img}
-                            className="img-fluid rounded-circle img-thumbnail mx-auto"
-                            style={{ width: "50px", height: "50px" }}
-                            src={`${imgServer}/gallary/${product._id}/${img}`}
-                          />
-                          <span
-                            onClick={() => DeleteImage(product._id, img)}
-                            style={{ cursor: "pointer" }}
-                            className="position-absolute top-0 start-0 fs-8 translate-middle badge rounded-pill bg-danger"
-                          >
-                            <i className="fa fa-times"></i>
-                          </span>
+                      <span key={img.img} className="position-relative">
+                        <img
+                          alt={img.img}
+                          className="img-fluid rounded-circle img-thumbnail mx-auto"
+                          style={{ width: "50px", height: "50px" }}
+                          src={img.img}
+                        />
+                        <span
+                          onClick={() =>
+                            DeleteImage(product._id, img.img, img.cloudinary_id)
+                          }
+                          style={{ cursor: "pointer" }}
+                          className="position-absolute top-0 start-0 fs-8 translate-middle badge rounded-pill bg-danger"
+                        >
+                          <i className="fa fa-times"></i>
                         </span>
+                      </span>
                     ))}
                   </p>
                 )}
@@ -139,13 +139,13 @@ function Product() {
               </div>
             </div>
           ) : (
-            <div className='text-center'>
-            <strong className="text-danger">
-              {" "}
-              <i className="fas fa-exclamation-circle"></i> There is no product
-              for this id
-            </strong>
-          </div>
+            <div className="text-center">
+              <strong className="text-danger">
+                {" "}
+                <i className="fas fa-exclamation-circle"></i> There is no
+                product for this id
+              </strong>
+            </div>
           )}
         </div>
       </div>

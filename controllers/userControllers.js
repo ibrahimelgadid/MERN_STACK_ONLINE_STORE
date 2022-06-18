@@ -13,6 +13,7 @@ const nodemailer = require("nodemailer");
 const tokenModel = require("../models/tokenModel");
 const resetpassValidators = require("../validation/resetpassValidators");
 const resetPassEmailValidators = require("../validation/resetPassEmailValidators");
+const cloudinary = require("../config/cloudinary");
 
 //---------------------------------------------|
 //           POST REGISTER
@@ -204,21 +205,29 @@ const editUserProfile = asyncHandler(async (req, res) => {
 //---------------------------------------------|
 const changeImg = asyncHandler(async (req, res) => {
   if (req.file) {
-    if (req.body.oldImg != "noimage.png") {
-      fs.unlink("public/userAvatar/" + req.body.oldImg, (err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+    const existedUser = await userModel.findOne({ _id: req.user.id });
+
+    if (
+      existedUser.avatar !==
+      "https://res.cloudinary.com/dbti7atfu/image/upload/v1655482753/noimage_xvdwft.png"
+    ) {
+      await cloudinary.uploader.destroy(existedUser.cloudinary_id);
     }
+
+    const userImg = await cloudinary.uploader.upload(req.file.path, {
+      folder: "userAvatar",
+    });
+
     const updateImg = {
-      avatar: req.file.filename,
+      avatar: userImg.secure_url,
+      cloudinary_id: userImg.public_id,
     };
     const updateImage = await userModel.findOneAndUpdate(
       { _id: req.user.id },
       { $set: updateImg },
       { new: true }
     );
+
     if (updateImage) {
       res.status(200).json({
         success: true,

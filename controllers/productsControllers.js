@@ -8,6 +8,7 @@ const asyncHandler = require("express-async-handler");
 const fs = require("fs");
 const cleanName = require("../helpers/namesFuns");
 const isEmpty = require("../validation/isEmpty");
+const cloudinary = require("../config/cloudinary");
 
 //---------------------------------------------|
 //           GET PRODUCTS FOR ADMINS
@@ -153,7 +154,12 @@ const addNewProduct = asyncHandler(async (req, res) => {
   });
 
   if (req.file) {
-    newProductModel.productImage = req.file.filename;
+    const prodImg = await cloudinary.uploader.upload(req.file.path, {
+      folder: "proImage",
+    });
+
+    newProductModel.productImage = prodImg.secure_url;
+    newProductModel.cloudinary_id = prodImg.public_id;
   }
 
   await newProductModel.save();
@@ -202,14 +208,20 @@ const editProduct = asyncHandler(async (req, res) => {
 
     //delete old image and store new one
     if (req.file) {
-      if (product.productImage !== "noimage.png") {
-        fs.unlink("public/proImage/" + product.productImage, (err) => {
-          if (err) {
-            console.log(err);
-          }
-        });
+      let currentProduct = await productModel.findById(req.params.productID);
+      if (
+        currentProduct.productImage !==
+        "https://res.cloudinary.com/dbti7atfu/image/upload/v1655482753/noimage_xvdwft.png"
+      ) {
+        await cloudinary.uploader.destroy(currentProduct.cloudinary_id);
       }
-      newProductModel.productImage = req.file.filename;
+
+      const prodImg = await cloudinary.uploader.upload(req.file.path, {
+        folder: "proImage",
+      });
+
+      newProductModel.productImage = prodImg.secure_url;
+      newProductModel.cloudinary_id = prodImg.public_id;
     }
 
     //update data
@@ -245,28 +257,20 @@ const deleteProduct = asyncHandler(async (req, res) => {
     );
     if (updatedProduct) {
       //delete image if not equal noimage.png
-      if (updatedProduct.productImage != "noimage.png") {
-        fs.unlink("public/proImage/" + updatedProduct.productImage, (err) => {
-          if (err) {
-            console.log(err);
-          }
-        });
+
+      if (
+        updatedProduct.productImage !==
+        "https://res.cloudinary.com/dbti7atfu/image/upload/v1655482753/noimage_xvdwft.png"
+      ) {
+        await cloudinary.uploader.destroy(updatedProduct.cloudinary_id);
       }
 
       //delete product gallary if exists
-      if (fs.existsSync(`public/gallary/${req.params.productID}`)) {
-        fs.rm(
-          `public/gallary/${req.params.productID}`,
-          {
-            recursive: true,
-          },
-          (err) => {
-            if (err) {
-              console.log(err);
-            }
-          }
-        );
-      }
+
+      await cloudinary.api.delete_resources_by_prefix(
+        `gallary/${req.params.productID}`
+      );
+      await cloudinary.api.delete_folder(`gallary/${req.params.productID}`);
 
       return res.status(200).json("done");
     }
@@ -280,11 +284,29 @@ const deleteProduct = asyncHandler(async (req, res) => {
 //           UPLOAD PRODUCT GALLARY
 //---------------------------------------------|
 const uploadGallaryImages = asyncHandler(async (req, res) => {
+  let imagesURL = [];
+  const cloudinaryImageUploadMethod = async (file) => {
+    return new Promise((resolve) => {
+      cloudinary.uploader.upload(
+        file,
+        { folder: `gallary/${req.params.productID}` },
+        (err, res) => {
+          if (err) return res.status(500).send("upload image error");
+          resolve({ img: res.secure_url, cloudinary_id: res.public_id });
+        }
+      );
+    });
+  };
+
+  for (const file of req.files) {
+    const newPath = await cloudinaryImageUploadMethod(file.path);
+    imagesURL.push(newPath);
+  }
   const updatedProducts = await productModel.findOneAndUpdate(
     { _id: req.params.productID },
     {
       $push: {
-        productGallary: { $each: req.files.map((file) => file.filename) },
+        productGallary: { $each: imagesURL.map((image) => image) },
       },
     },
     { new: true }
@@ -298,14 +320,18 @@ const uploadGallaryImages = asyncHandler(async (req, res) => {
 const deleteGallaryImage = asyncHandler(async (req, res) => {
   const updatedProducts = await productModel.findByIdAndUpdate(
     { _id: req.params.productID },
-    { $pull: { productGallary: req.params.img } },
+    {
+      $pull: {
+        productGallary: {
+          img: req.body.img,
+        },
+      },
+    },
     { new: true }
   );
 
-  await fs.promises.unlink(
-    `public/gallary/${req.params.productID}/${req.params.img}`
-  );
-  return res.status(200).json(updatedProducts);
+  await cloudinary.uploader.destroy(req.body.cloudinary_id);
+  res.status(200).json(updatedProducts);
 });
 // export modules
 module.exports = {

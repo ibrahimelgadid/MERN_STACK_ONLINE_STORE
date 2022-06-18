@@ -3,7 +3,7 @@
 //---------------------------------------------|
 const router = require("express").Router();
 const passport = require("passport");
-const upload = require("../../helpers/imgUpload");
+const upload = require("../../config/multer");
 const {
   editProduct,
   getProductById,
@@ -51,7 +51,7 @@ router.route("/search").post(getProductsBySearch);
 router.route("/").post(
   passport.authenticate("jwt", { session: false }),
 
-  upload("public/proImage/").single("productImage"),
+  upload.single("productImage"),
   (err, req, res, next) => {
     if (err) {
       const errors = {};
@@ -72,7 +72,7 @@ router.route("/").post(
 //
 router.route("/:productID").put(
   passport.authenticate("jwt", { session: false }),
-  upload("public/proImage/").single("productImage"),
+  upload.single("productImage"),
   (err, req, res, next) => {
     if (err) {
       const errors = {};
@@ -101,7 +101,7 @@ router.route("/sort/:sorted/:number").get(sortProducts);
 //---------------------------------------------|
 router.route("/gallary/:productID").post(
   passport.authenticate("jwt", { session: false }),
-  upload("public/gallary/", "productID").array("gallary"),
+  upload.array("gallary"),
   (err, req, res, next) => {
     if (err) return console.log(err.message);
   },
@@ -112,7 +112,7 @@ router.route("/gallary/:productID").post(
 //            DELETE GALLARY IMAGES
 //---------------------------------------------|
 router
-  .route("/gallary/:productID/:img")
-  .delete(passport.authenticate("jwt", { session: false }), deleteGallaryImage);
+  .route("/gallary/delete/:productID")
+  .post(passport.authenticate("jwt", { session: false }), deleteGallaryImage);
 
 module.exports = router;

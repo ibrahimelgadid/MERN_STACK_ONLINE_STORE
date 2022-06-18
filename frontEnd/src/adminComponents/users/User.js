@@ -13,7 +13,7 @@ import { bindActionCreators } from "redux";
 import { getUser } from "../../ReduxCycle/actions/membersActions";
 import isEmpty from "../../utilis/isEmpty";
 import Moment from "react-moment";
-import { imgServer } from "../../utilis/imageServer";
+// import { imgServer } from "../../utilis/imageServer";
 
 function User() {
   const { user, loading } = useSelector((state) => state.membersReducer);
@@ -51,11 +51,7 @@ function User() {
                     style={{ width: "150px", height: "150px" }}
                     alt=""
                     className="img-fluid rounded-circle img-thumbnail mx-auto"
-                    src={
-                      user.avatar === "noimage.png"
-                        ? `../../../images/${user.avatar}`
-                        : `${imgServer}/userAvatar/${user.avatar}`
-                    }
+                    src={user.avatar}
                   />
                 </div>
                 <p>

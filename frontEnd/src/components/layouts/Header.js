@@ -11,7 +11,7 @@ import { bindActionCreators } from "redux";
 import { logOut } from "../../ReduxCycle/actions/authActions";
 import { getCartElements } from "../../ReduxCycle/actions/cartActions";
 import isEmpty from "../../utilis/isEmpty";
-import { imgServer } from "../../utilis/imageServer";
+// import { imgServer } from "../../utilis/imageServer";
 
 const Header = () => {
   const { cart } = useSelector((state) => state.cartReducer);
@@ -56,11 +56,7 @@ const Header = () => {
                       width: "50px",
                       height: "50px",
                     }}
-                    src={
-                      user.avatar === "noimage.png"
-                        ? `../../../images/${user.avatar}`
-                        : `${imgServer}/userAvatar/${user.avatar}`
-                    }
+                    src={user.avatar}
                   />
                 </button>
                 <ul className="dropdown-menu">

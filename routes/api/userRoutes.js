@@ -3,7 +3,7 @@
 //---------------------------------------------|
 const router = require("express").Router();
 const passport = require("passport");
-const upload = require("../../helpers/imgUpload");
+const upload = require("../../config/multer");
 const {
   getAllUsers,
   register,
@@ -73,7 +73,7 @@ router.route("/changeImg").put(
   passport.authenticate("jwt", {
     session: false,
   }),
-  upload("public/userAvatar/").single("userAvatar"),
+  upload.single("userAvatar"),
   (err, req, res, next) => {
     if (err) {
       const errors = {};

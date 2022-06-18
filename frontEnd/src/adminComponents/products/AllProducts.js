@@ -7,7 +7,7 @@ import {
 } from "../../ReduxCycle/actions/productsActions";
 import isEmpty from "../../utilis/isEmpty";
 import { Link, useNavigate } from "react-router-dom";
-import { imgServer } from "../../utilis/imageServer";
+// import { imgServer } from "../../utilis/imageServer";
 import { Spinner } from "react-bootstrap";
 
 function AllProducts() {
@@ -46,11 +46,7 @@ function AllProducts() {
               <td>
                 <img
                   className="img-circle  elevation-2"
-                  src={
-                    product.productImage === "noimage.png"
-                      ? `../../../images/${product.productImage}`
-                      : `${imgServer}/proImage/${product.productImage}`
-                  }
+                  src={product.productImage}
                   style={{ width: "40px", height: "40px" }}
                   alt={product.name}
                 />

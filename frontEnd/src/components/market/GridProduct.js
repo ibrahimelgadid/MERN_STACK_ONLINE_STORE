@@ -5,7 +5,7 @@ import { addProductToCart } from "../../ReduxCycle/actions/cartActions";
 import io from "socket.io-client";
 import { addNewNotification } from "../../ReduxCycle/actions/notificationsActions";
 import { socketConn } from "../../utilis/socket";
-import { imgServer } from "../../utilis/imageServer";
+// import { imgServer } from "../../utilis/imageServer";
 import { useState } from "react";
 import { Spinner } from "react-bootstrap";
 
@@ -46,7 +46,7 @@ function GridProduct({ product, user }) {
           <small className="badge bg-success float-start">-25</small>
           <img
             className="w-100 h-100 img-fluid"
-            src={`${imgServer}/proImage/${product.productImage}`}
+            src={product.productImage}
             alt=""
           />
           <h5 className="text-info">{product.name}</h5>

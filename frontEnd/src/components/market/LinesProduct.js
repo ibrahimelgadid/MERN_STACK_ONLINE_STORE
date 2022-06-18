@@ -7,7 +7,7 @@ import { addProductToCart } from "../../ReduxCycle/actions/cartActions";
 import { addNewNotification } from "../../ReduxCycle/actions/notificationsActions";
 
 import { socketConn } from "../../utilis/socket";
-import { imgServer } from "../../utilis/imageServer";
+// import { imgServer } from "../../utilis/imageServer";
 import { Spinner } from "react-bootstrap";
 
 var socket = io(socketConn);
@@ -50,7 +50,7 @@ function LinesProduct({ product, user }) {
           <small className="badge bg-success float-start">-25</small>
           <img
             className="w-100 h-100 img-fluid rounded-start"
-            src={`${imgServer}/proImage/${product.productImage}`}
+            src={product.productImage}
             alt="..."
           />
         </div>

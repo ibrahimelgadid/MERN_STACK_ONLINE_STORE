@@ -12,9 +12,18 @@ const productSchema = new Schema(
 
     brand: { type: String, required: true },
 
-    productImage: { type: String, default: "noimage.png" },
+    productImage: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dbti7atfu/image/upload/v1655482753/NO_IMG_gr2aaj.png",
+    },
+    cloudinary_id: {
+      type: String,
+    },
 
-    productGallary: { type: [] },
+    productGallary: [
+      { img: { type: String }, cloudinary_id: { type: String } },
+    ],
 
     publisher: { type: Schema.Types.ObjectId, ref: "userModel" },
   },

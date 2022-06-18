@@ -1,82 +1,87 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from "react-router-dom"
-import { bindActionCreators } from 'redux';
-import { getBrands } from '../../ReduxCycle/actions/brandsActions';
-import { getCategories } from '../../ReduxCycle/actions/categoriesActions';
-import { getUsers } from '../../ReduxCycle/actions/membersActions';
-import { getProducts } from '../../ReduxCycle/actions/productsActions';
-import { getOrders } from '../../ReduxCycle/actions/ordersAction';
-import {imgServer} from "../../utilis/imageServer";
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { getBrands } from "../../ReduxCycle/actions/brandsActions";
+import { getCategories } from "../../ReduxCycle/actions/categoriesActions";
+import { getUsers } from "../../ReduxCycle/actions/membersActions";
+import { getProducts } from "../../ReduxCycle/actions/productsActions";
+import { getOrders } from "../../ReduxCycle/actions/ordersAction";
+// import { imgServer } from "../../utilis/imageServer";
 
 export default function AdminSideBar() {
-
   const dispatch = useDispatch();
 
-  const {users:members} = useSelector(state=>state.membersReducer);
-  const {user} = useSelector(state=>state.authReducer);
+  const { users: members } = useSelector((state) => state.membersReducer);
+  const { user } = useSelector((state) => state.authReducer);
 
-  const GetUsers = bindActionCreators( getUsers, dispatch)
-  
-  const {products} = useSelector(state=>state.productsReducer);
-  const GetProducts = bindActionCreators( getProducts, dispatch)
+  const GetUsers = bindActionCreators(getUsers, dispatch);
 
-  const {brands} = useSelector(state=>state.brandsReducer);
-  const GetBrands = bindActionCreators( getBrands, dispatch)
+  const { products } = useSelector((state) => state.productsReducer);
+  const GetProducts = bindActionCreators(getProducts, dispatch);
 
-  const {categories} = useSelector(state=>state.categoriesReducer);
-  const GetCategories = bindActionCreators( getCategories, dispatch)
+  const { brands } = useSelector((state) => state.brandsReducer);
+  const GetBrands = bindActionCreators(getBrands, dispatch);
 
-  const {orders} = useSelector(state=>state.ordersReducer);
-  const GetOrders = bindActionCreators( getOrders, dispatch)
+  const { categories } = useSelector((state) => state.categoriesReducer);
+  const GetCategories = bindActionCreators(getCategories, dispatch);
+
+  const { orders } = useSelector((state) => state.ordersReducer);
+  const GetOrders = bindActionCreators(getOrders, dispatch);
 
   useEffect(() => {
     GetProducts();
     GetUsers();
     GetBrands();
-    GetCategories()
-    GetOrders()
+    GetCategories();
+    GetOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
   return (
     <div>
-      <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{minHeight:"650px"}}>
+      <aside
+        className="main-sidebar sidebar-dark-primary elevation-4"
+        style={{ minHeight: "650px" }}
+      >
         <a href="/" target={"_blank"} className="brand-link">
-          <img src="../../logo192.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{opacity: ".8"}}/>
+          <img
+            src="../../logo192.png"
+            alt="AdminLTE Logo"
+            className="brand-image img-circle elevation-3"
+            style={{ opacity: ".8" }}
+          />
           <span className="brand-text font-weight-light">MERN STORE</span>
         </a>
 
         <div className="sidebar">
           <div className="user-panel mt-3 pb-3 mb-3 d-flex">
             <div className="image">
-              <img alt={user.name}
-                className='img-circle elevation-2' 
-                style={{width:'50px', height:'50px'}}
-                src={user.avatar==='noimage.png'?`../../../images/${user.avatar}`:
-                  `${imgServer}/userAvatar/${user.avatar}`} />
+              <img
+                alt={user.name}
+                className="img-circle elevation-2"
+                style={{ width: "50px", height: "50px" }}
+                src={user.avatar}
+              />
             </div>
             <div className="info ">
-              <Link to="#" >{user.name}</Link>
+              <Link to="#">{user.name}</Link>
             </div>
           </div>
 
-
           <nav className="mt-2">
-            <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-              
-
-              
+            <ul
+              className="nav nav-pills nav-sidebar flex-column"
+              data-widget="treeview"
+              role="menu"
+              data-accordion="false"
+            >
               {/* ////////////////////////////////////////////////// */}
               <li className="nav-item">
                 <Link to="/admin-area" className="nav-link">
                   <i className="nav-icon fas fa-house-damage"></i>
-                  <p>
-                    Dashboard
-                  </p>
+                  <p>Dashboard</p>
                 </Link>
               </li>
-
 
               {/* ////////////////////////////////////////////////// */}
               <li className="nav-item">
@@ -85,7 +90,9 @@ export default function AdminSideBar() {
                   <p>
                     Users
                     <i className="fas fa-angle-left right"></i>
-                    <span className="badge badge-info right">{members.length}</span>
+                    <span className="badge badge-info right">
+                      {members.length}
+                    </span>
                   </p>
                 </Link>
                 <ul className="nav nav-treeview">
@@ -98,7 +105,6 @@ export default function AdminSideBar() {
                 </ul>
               </li>
 
-
               {/* ////////////////////////////////////////////////// */}
               <li className="nav-item">
                 <Link to="#" className="nav-link">
@@ -106,7 +112,9 @@ export default function AdminSideBar() {
                   <p>
                     Products
                     <i className="fas fa-angle-left right"></i>
-                    <span className="badge badge-info right">{products?.length}</span>
+                    <span className="badge badge-info right">
+                      {products?.length}
+                    </span>
                   </p>
                 </Link>
                 <ul className="nav nav-treeview">
@@ -132,7 +140,9 @@ export default function AdminSideBar() {
                   <p>
                     Categories
                     <i className="fas fa-angle-left right"></i>
-                    <span className="badge badge-info right">{categories.length}</span>
+                    <span className="badge badge-info right">
+                      {categories.length}
+                    </span>
                   </p>
                 </Link>
                 <ul className="nav nav-treeview">
@@ -142,7 +152,6 @@ export default function AdminSideBar() {
                       <p>All Categories</p>
                     </Link>
                   </li>
-
                 </ul>
               </li>
 
@@ -153,7 +162,9 @@ export default function AdminSideBar() {
                   <p>
                     Brands
                     <i className="fas fa-angle-left right"></i>
-                    <span className="badge badge-info right">{brands.length}</span>
+                    <span className="badge badge-info right">
+                      {brands.length}
+                    </span>
                   </p>
                 </Link>
                 <ul className="nav nav-treeview">
@@ -199,7 +210,9 @@ export default function AdminSideBar() {
                   <p>
                     Orders
                     <i className="fas fa-angle-left right"></i>
-                    <span className="badge badge-info right">{orders.length}</span>
+                    <span className="badge badge-info right">
+                      {orders.length}
+                    </span>
                   </p>
                 </Link>
                 <ul className="nav nav-treeview">
@@ -209,15 +222,12 @@ export default function AdminSideBar() {
                       <p>All Orders</p>
                     </Link>
                   </li>
-                  
                 </ul>
               </li>
-
             </ul>
           </nav>
         </div>
-        
       </aside>
     </div>
-  )
+  );
 }

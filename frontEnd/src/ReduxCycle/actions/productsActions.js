@@ -230,23 +230,24 @@ export const addGallaryImages = (data, pro_id) => (dispatch) => {
     });
 };
 
-export const deleteGallaryImage = (pro_id, img) => (dispatch) => {
-  axios
-    .delete(`products/gallary/${pro_id}/${img}`)
-    .then((res) => {
-      dispatch({
-        type: GET_PRODUCT,
-        payload: res.data,
-      });
-    })
+export const deleteGallaryImage =
+  (pro_id, img, cloudinary_id) => (dispatch) => {
+    axios
+      .post(`products/gallary/delete/${pro_id}`, { img, cloudinary_id })
+      .then((res) => {
+        dispatch({
+          type: GET_PRODUCT,
+          payload: res.data,
+        });
+      })
 
-    .catch((err) => {
-      dispatch({
-        type: GET_PRODUCTS,
-        payload: [],
+      .catch((err) => {
+        dispatch({
+          type: GET_PRODUCTS,
+          payload: [],
+        });
       });
-    });
-};
+  };
 
 // clear errors
 export const clearErrors = () => {
