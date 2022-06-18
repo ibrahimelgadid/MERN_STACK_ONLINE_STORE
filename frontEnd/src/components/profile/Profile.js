@@ -21,7 +21,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changeImg } from "../../ReduxCycle/actions/authActions";
 import isEmpty from "../../utilis/isEmpty";
-// import { imgServer } from "../../utilis/imageServer";
 
 function Profile() {
   const [userAvatar, setUserAvatar] = useState("");

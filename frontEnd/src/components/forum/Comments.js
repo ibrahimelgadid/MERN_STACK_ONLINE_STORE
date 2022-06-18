@@ -3,7 +3,6 @@ import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { deleteComment } from "../../ReduxCycle/actions/postsActions";
-import { imgServer } from "../../utilis/imageServer";
 
 function Comments({ comment, postID }) {
   const [actions, setActions] = useState(false);
@@ -23,15 +22,7 @@ function Comments({ comment, postID }) {
           <Moment format="DD MMM YYYY, HH:mm">{comment.date}</Moment>
         </span>
       </div>
-      <img
-        alt=""
-        className="direct-chat-img"
-        src={
-          comment.user.avatar === "noimage.png"
-            ? `../../../images/${comment.user.avatar}`
-            : `${imgServer}/userAvatar/${comment.user.avatar}`
-        }
-      />
+      <img alt="" className="direct-chat-img" src={comment.user.avatar} />
       <div className="direct-chat-text">
         {actions && comment.user._id === user.id && (
           <span className="">

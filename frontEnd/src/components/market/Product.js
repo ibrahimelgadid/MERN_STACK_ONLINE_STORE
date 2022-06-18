@@ -7,7 +7,6 @@ import { getProduct } from "../../ReduxCycle/actions/productsActions";
 import isEmpty from "../../utilis/isEmpty";
 import Moment from "react-moment";
 import Fancybox from "./fancybox/Fancybox";
-// import {imgServer} from "../../utilis/imageServer";
 
 function Product() {
   const { product, loading } = useSelector((state) => state.productsReducer);

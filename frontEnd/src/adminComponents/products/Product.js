@@ -11,7 +11,6 @@ import {
 import isEmpty from "../../utilis/isEmpty";
 import Moment from "react-moment";
 import { DropzoneArea } from "material-ui-dropzone";
-// import { imgServer } from "../../utilis/imageServer";
 
 function Product() {
   const [productImage, setProductImage] = useState("");

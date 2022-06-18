@@ -13,7 +13,6 @@ import { bindActionCreators } from "redux";
 import { getUser } from "../../ReduxCycle/actions/membersActions";
 import isEmpty from "../../utilis/isEmpty";
 import Moment from "react-moment";
-// import { imgServer } from "../../utilis/imageServer";
 
 function User() {
   const { user, loading } = useSelector((state) => state.membersReducer);

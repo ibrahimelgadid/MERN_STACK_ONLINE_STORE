@@ -7,7 +7,6 @@ import { addProductToCart } from "../../ReduxCycle/actions/cartActions";
 import { addNewNotification } from "../../ReduxCycle/actions/notificationsActions";
 
 import { socketConn } from "../../utilis/socket";
-// import { imgServer } from "../../utilis/imageServer";
 import { Spinner } from "react-bootstrap";
 
 var socket = io(socketConn);

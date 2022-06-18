@@ -7,7 +7,6 @@ import {
 } from "../../ReduxCycle/actions/productsActions";
 import isEmpty from "../../utilis/isEmpty";
 import { Link, useNavigate } from "react-router-dom";
-// import { imgServer } from "../../utilis/imageServer";
 import { Spinner } from "react-bootstrap";
 
 function AllProducts() {

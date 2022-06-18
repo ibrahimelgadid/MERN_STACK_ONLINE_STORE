@@ -7,7 +7,6 @@ import { getCategories } from "../../ReduxCycle/actions/categoriesActions";
 import { getUsers } from "../../ReduxCycle/actions/membersActions";
 import { getProducts } from "../../ReduxCycle/actions/productsActions";
 import { getOrders } from "../../ReduxCycle/actions/ordersAction";
-// import { imgServer } from "../../utilis/imageServer";
 
 export default function AdminSideBar() {
   const dispatch = useDispatch();

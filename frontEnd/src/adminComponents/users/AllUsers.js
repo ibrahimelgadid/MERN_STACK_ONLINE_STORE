@@ -5,7 +5,6 @@ import { deleteUser, getUsers } from "../../ReduxCycle/actions/membersActions";
 import isEmpty from "../../utilis/isEmpty";
 import { Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { imgServer } from "../../utilis/imageServer";
 
 function AllUsers() {
   const { users, loading } = useSelector((state) => state.membersReducer);
@@ -37,11 +36,7 @@ function AllUsers() {
             <td>
               <img
                 className="img-circle  elevation-2"
-                src={
-                  user.avatar === "noimage.png"
-                    ? `../../../images/${user.avatar}`
-                    : `${imgServer}/userAvatar/${user.avatar}`
-                }
+                src={user.avatar}
                 style={{ width: "40px", height: "40px" }}
                 alt={user.name}
               />

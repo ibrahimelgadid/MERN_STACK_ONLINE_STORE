@@ -11,7 +11,6 @@ import {
 import { useEffect, useState } from "react";
 import EditPost from "./EditPost";
 import { Modal, Spinner } from "react-bootstrap";
-import { imgServer } from "../../utilis/imageServer";
 import classNames from "classnames";
 
 function Posts({ post }) {
@@ -65,11 +64,7 @@ function Posts({ post }) {
           <img
             alt=""
             style={{ borderRadius: "50px", width: "50px", height: "50px" }}
-            src={
-              post.user.avatar === "noimage.png"
-                ? `../../../images/${post.user.avatar}`
-                : `${imgServer}/userAvatar/${post.user.avatar}`
-            }
+            src={post.user.avatar}
           />{" "}
           {post.user.name}
         </h5>
