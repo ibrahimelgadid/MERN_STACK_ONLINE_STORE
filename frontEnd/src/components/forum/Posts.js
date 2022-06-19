@@ -66,6 +66,7 @@ function Posts({ post }) {
             style={{ borderRadius: "50px", width: "50px", height: "50px" }}
             src={post.user.avatar}
           />{" "}
+          {console.log(post)}
           {post.user.name}
         </h5>
         {user.id === post.user._id ? (
