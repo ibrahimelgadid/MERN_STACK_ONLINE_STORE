@@ -44,7 +44,7 @@ const getProductById = asyncHandler(async (req, res) => {
 //---------------------------------------------|
 const getAllProductsForUsers = asyncHandler(async (req, res) => {
   const page = req.query.page ? req.query.page : 1;
-  const limit = 2;
+  const limit = 4;
   const skip = (page - 1) * limit;
 
   const products = await productModel
