@@ -65,7 +65,7 @@ const getAllProductsForUsers = asyncHandler(async (req, res) => {
 const getProductsBySearch = asyncHandler(async (req, res) => {
   const page = req.query.page ? req.query.page : 1;
   const search = req.query.search;
-  const limit = 2;
+  const limit = 4;
   const skip = (page - 1) * limit;
   const queries = {
     name: {
@@ -92,7 +92,7 @@ const getProductsBySearch = asyncHandler(async (req, res) => {
 //---------------------------------------------|
 const getProductsByFilter = asyncHandler(async (req, res) => {
   const page = req.query.page ? req.query.page : 1;
-  const limit = 2;
+  const limit = 4;
   const skip = (page - 1) * limit;
   const queries = {};
   !isEmpty(req.body.category) ? (queries.category = req.body.category) : "";
