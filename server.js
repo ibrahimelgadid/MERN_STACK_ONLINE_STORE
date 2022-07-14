@@ -70,7 +70,9 @@ if (process.env.NODE_ENV === "production") {
 //              Display server                 |
 //---------------------------------------------|
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => console.log("Server is running......"));
+const server = app.listen(PORT, () =>
+  console.log("Server is running " + PORT + "......")
+);
 
 //---------------------------------------------|
 //              Display socket                 |

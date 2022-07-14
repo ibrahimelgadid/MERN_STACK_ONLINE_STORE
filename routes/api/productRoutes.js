@@ -55,7 +55,7 @@ router.route("/").post(
   (err, req, res, next) => {
     if (err) {
       const errors = {};
-      errors.userAvatar = err.message;
+      errors.productImage = err.message;
       return res.status(400).json(errors);
     }
     next();

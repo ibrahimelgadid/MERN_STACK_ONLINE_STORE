@@ -3,6 +3,8 @@
 //---------------------------------------------|
 const asyncHandler = require("express-async-handler");
 const orderModel = require("../models/orderModel");
+const cartModel = require("../models/cartModel");
+const orderValidators = require("../validation/orderValidators");
 
 //---------------------------------------------|
 //           POST NEW ORDER

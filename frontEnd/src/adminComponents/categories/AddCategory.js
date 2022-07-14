@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { bindActionCreators } from "redux";
-import isEmpty from "../../utilis/isEmpty";
 import classnames from "classnames";
 import { addNewCategory } from "../../ReduxCycle/actions/categoriesActions";
 

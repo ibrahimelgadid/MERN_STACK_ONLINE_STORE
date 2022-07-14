@@ -155,7 +155,7 @@ const addNewProduct = asyncHandler(async (req, res) => {
 
   if (req.file) {
     const prodImg = await cloudinary.uploader.upload(req.file.path, {
-      folder: "proImage",
+      folder: "mern_stack_project/proImage",
     });
 
     newProductModel.productImage = prodImg.secure_url;
@@ -211,13 +211,13 @@ const editProduct = asyncHandler(async (req, res) => {
       let currentProduct = await productModel.findById(req.params.productID);
       if (
         currentProduct.productImage !==
-        "https://res.cloudinary.com/dbti7atfu/image/upload/v1655482753/noimage_xvdwft.png"
+        "https://res.cloudinary.com/dbti7atfu/image/upload/v1657783948/mern_stack_project/NO_IMG_hvzl7p.png"
       ) {
         await cloudinary.uploader.destroy(currentProduct.cloudinary_id);
       }
 
       const prodImg = await cloudinary.uploader.upload(req.file.path, {
-        folder: "proImage",
+        folder: "mern_stack_project/proImage",
       });
 
       newProductModel.productImage = prodImg.secure_url;
@@ -260,7 +260,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
       if (
         updatedProduct.productImage !==
-        "https://res.cloudinary.com/dbti7atfu/image/upload/v1655482753/noimage_xvdwft.png"
+        "https://res.cloudinary.com/dbti7atfu/image/upload/v1657783948/mern_stack_project/NO_IMG_hvzl7p.png"
       ) {
         await cloudinary.uploader.destroy(updatedProduct.cloudinary_id);
       }
@@ -268,9 +268,11 @@ const deleteProduct = asyncHandler(async (req, res) => {
       //delete product gallary if exists
 
       await cloudinary.api.delete_resources_by_prefix(
-        `gallary/${req.params.productID}`
+        `mern_stack_project/gallary/${req.params.productID}`
       );
-      await cloudinary.api.delete_folder(`gallary/${req.params.productID}`);
+      await cloudinary.api.delete_folder(
+        `mern_stack_project/gallary/${req.params.productID}`
+      );
 
       return res.status(200).json("done");
     }
@@ -289,7 +291,7 @@ const uploadGallaryImages = asyncHandler(async (req, res) => {
     return new Promise((resolve) => {
       cloudinary.uploader.upload(
         file,
-        { folder: `gallary/${req.params.productID}` },
+        { folder: `mern_stack_project/gallary/${req.params.productID}` },
         (err, res) => {
           if (err) return res.status(500).send("upload image error");
           resolve({ img: res.secure_url, cloudinary_id: res.public_id });

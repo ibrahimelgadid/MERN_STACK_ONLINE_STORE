@@ -15,7 +15,7 @@ const productSchema = new Schema(
     productImage: {
       type: String,
       default:
-        "https://res.cloudinary.com/dbti7atfu/image/upload/v1655482753/NO_IMG_gr2aaj.png",
+        "https://res.cloudinary.com/dbti7atfu/image/upload/v1657783948/mern_stack_project/NO_IMG_hvzl7p.png",
     },
     cloudinary_id: {
       type: String,

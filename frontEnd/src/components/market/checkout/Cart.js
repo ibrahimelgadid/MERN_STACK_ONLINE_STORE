@@ -1,19 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { handleStripeToken } from "../../../ReduxCycle/actions/stripe";
 import isEmpty from "../../../utilis/isEmpty";
 import Stripe from "react-stripe-checkout";
 import { addNewOrder } from "../../../ReduxCycle/actions/ordersAction";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 function Cart({ cart, loading, selectedProduct, phone }) {
   let AddNewOrder = bindActionCreators(addNewOrder, useDispatch());
-  let errorsFromState = useSelector((state) => state.errorsReducer);
   let navigate = useNavigate();
-  let [isMounted, setIsMounted] = useState(false);
-  let [errors, setErrors] = useState("");
 
   const HandleStripeToken = bindActionCreators(
     handleStripeToken,
@@ -36,20 +31,6 @@ function Cart({ cart, loading, selectedProduct, phone }) {
     };
     AddNewOrder(orderData, navigate);
   };
-
-  useEffect(() => {
-    if (isMounted) {
-      setErrors(errorsFromState);
-      if (!isEmpty(errorsFromState)) {
-        Object.values(errors).map((value) =>
-          toast.warn(value, { theme: "colored" })
-        );
-      }
-    } else {
-      setIsMounted(true);
-    }
-    // eslint-disable-next-line
-  }, [errors, errorsFromState]);
 
   return isEmpty(cart) && loading ? (
     <div className="spinner-border my-4" role="status">
@@ -83,7 +64,7 @@ function Cart({ cart, loading, selectedProduct, phone }) {
             stripeKey="pk_test_wpsaZLzicJCvZLC0yZMd6QHf00yOyDoak5"
             amount={cart.totalPrice * 100}
             token={stripeTokenHandler}
-            description={`Your total amount $${cart.totalPrice * 100}`}
+            description={`Your total amount $${cart.totalPrice}`}
             shippingAddress
             billingAddress
           >

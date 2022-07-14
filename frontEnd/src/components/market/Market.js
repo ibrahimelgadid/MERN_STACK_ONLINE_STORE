@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { getBrands } from "../../ReduxCycle/actions/brandsActions";
 import { getCategories } from "../../ReduxCycle/actions/categoriesActions";
 import {
   getProducts,
-  getProductsByBrand,
-  getProductsByCategory,
   getProductsBySearch,
 } from "../../ReduxCycle/actions/productsActions";
 import isEmpty from "../../utilis/isEmpty";
@@ -27,21 +25,13 @@ function Market() {
   });
   const [grid, setGrid] = useState(true);
   const [searchWord, setSearchWord] = useState("");
-  const [isMounted, setIsMounted] = useState(false);
 
   const { products, loading, productsCount } = useSelector(
     (state) => state.productsReducer
   );
   const { user } = useSelector((state) => state.authReducer);
   const GetProducts = bindActionCreators(getProducts, useDispatch());
-  const GetProductsByCategory = bindActionCreators(
-    getProductsByCategory,
-    useDispatch()
-  );
-  const GetProductsByBrand = bindActionCreators(
-    getProductsByBrand,
-    useDispatch()
-  );
+
   const GetProductsBySearch = bindActionCreators(
     getProductsBySearch,
     useDispatch()
@@ -56,9 +46,6 @@ function Market() {
   const pageParam = searchParams.get("page");
   const searchParam = searchParams.get("search");
   const pagesNumber = Array(productsCount).fill("");
-
-  const { categoryHandle } = useParams();
-  const { brandHandle } = useParams();
 
   // get all products without search or filter word
   useEffect(() => {

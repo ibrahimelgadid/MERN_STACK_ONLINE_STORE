@@ -8,7 +8,7 @@ const loginValidators = require("../validation/loginValidators");
 const userValidators = require("../validation/userValidators");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
-const fs = require("fs");
+// const fs = require("fs");
 const nodemailer = require("nodemailer");
 const tokenModel = require("../models/tokenModel");
 const resetpassValidators = require("../validation/resetpassValidators");
@@ -126,6 +126,14 @@ const getAllUsers = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
   // access for superAdmin only
   if (req.user.role === "superAdmin") {
+    const existedUser = await userModel.findOne({ _id: req.params.userID });
+    if (
+      existedUser.avatar !==
+      "https://res.cloudinary.com/dbti7atfu/image/upload/v1657783948/mern_stack_project/noimage_j9qyxs.png"
+    ) {
+      await cloudinary.uploader.destroy(existedUser.cloudinary_id);
+    }
+
     const deleteUser = await userModel.deleteOne({ _id: req.params.userID });
     if (deleteUser) {
       res.status(200).json("done");
@@ -209,13 +217,13 @@ const changeImg = asyncHandler(async (req, res) => {
 
     if (
       existedUser.avatar !==
-      "https://res.cloudinary.com/dbti7atfu/image/upload/v1655482753/noimage_xvdwft.png"
+      "https://res.cloudinary.com/dbti7atfu/image/upload/v1657783948/mern_stack_project/noimage_j9qyxs.png"
     ) {
       await cloudinary.uploader.destroy(existedUser.cloudinary_id);
     }
 
     const userImg = await cloudinary.uploader.upload(req.file.path, {
-      folder: "userAvatar",
+      folder: "mern_stack_project/userAvatar",
     });
 
     const updateImg = {
@@ -254,10 +262,10 @@ const sendEmailForResetPass = asyncHandler(async (req, res) => {
   const token = `${Math.random(Date.now() * 580585)}`;
   const transporter = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
-    port: 587, //25 2525 587 465
+    port: 465, //25 2525 587 465
     auth: {
-      user: "7343e6cf3ef96c",
-      pass: "f1c870dffc07e5",
+      user: process.env.user,
+      pass: process.env.pass,
     },
   });
   const mailOptions = {
